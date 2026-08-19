@@ -18,7 +18,7 @@ import {
   ZERO_HASH,
   type Finding,
 } from "@/lib/lading";
-import { Button, Card, Empty, Ext, Field, Input } from "@/components/ui";
+import { Button, Card, Empty, Ext, Field, Input } from "@/components/lading-ui";
 import { RefusalPanel } from "@/components/Notice";
 import { ArrowLeft, FileUp, CheckCircle2, ShieldAlert, Zap, FileCheck } from "lucide-react";
 

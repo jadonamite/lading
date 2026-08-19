@@ -7,7 +7,7 @@ import { ladingAbi } from "@/lib/abi";
 import { LADING_ADDRESS, txUrl } from "@/lib/chain";
 import { useAmendmentHash, useCredit, useHasSigned } from "@/lib/hooks";
 import { asDate, hashDocument, shortAddr, State } from "@/lib/lading";
-import { Button, Card, Empty, Ext, Field, Input } from "@/components/ui";
+import { Button, Card, Empty, Ext, Field, Input } from "@/components/lading-ui";
 import { ArrowLeft, FileSignature, CheckCircle2, ShieldCheck, FileUp, Clock } from "lucide-react";
 
 export default function AmendPage({ params }: { params: Promise<{ id: string }> }) {

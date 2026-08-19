@@ -1,26 +1,42 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Providers } from "@/components/Providers";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
+const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["italic", "normal"],
+});
+
 export const metadata: Metadata = {
-  title: "Lading — Documentary Credit Settled by Contract",
+  title: "Lading — a documentary credit, settled by contract",
   description:
     "A letter of credit on BOT Chain. The applicant funds it; the beneficiary is paid the instant conforming documents are presented; the applicant is refunded if they never are. No administrator, no release button, no discretion.",
+  icons: { icon: "/Lading.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-emerald-500/30 selection:text-emerald-300">
-        <Providers>
-          <Header />
-          <main className="flex-1 mx-auto w-full max-w-6xl px-5 pt-8 pb-16">{children}</main>
-          <Footer />
-        </Providers>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-

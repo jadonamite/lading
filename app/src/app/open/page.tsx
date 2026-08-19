@@ -9,7 +9,7 @@ import { LADING_ADDRESS, txUrl } from "@/lib/chain";
 import { ASSETS, NATIVE } from "@/lib/assets";
 import { toBaseUnits, toFieldValue } from "@/lib/units";
 import { KNOWN_FIELDS, Op, OP_SYMBOL, fieldKey, hashDocument, ZERO_HASH } from "@/lib/lading";
-import { Button, Card, Ext, Field, Input, Select } from "@/components/ui";
+import { Button, Card, Ext, Field, Input, Select } from "@/components/lading-ui";
 import { FileUp, Plus, Trash2, ArrowLeft, ShieldAlert, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 

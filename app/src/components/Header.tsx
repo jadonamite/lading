@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { botChain, LADING_ADDRESS, addrUrl } from "@/lib/chain";
 import { shortAddr } from "@/lib/lading";
-import { Button } from "./ui";
+import { Button } from "./lading-ui";
 import { Wallet, Copy, Check, ExternalLink, ShieldCheck, Menu, X } from "lucide-react";
 
 export function Header() {

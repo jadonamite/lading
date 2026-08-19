@@ -19,7 +19,7 @@ import {
   State,
   STATE_LABEL,
 } from "@/lib/lading";
-import { Badge, Button, Card, Empty, Ext, Row } from "@/components/ui";
+import { Badge, Button, Card, Empty, Ext, Row } from "@/components/lading-ui";
 import { NoticeRow } from "@/components/Notice";
 import { ArrowLeft, CheckCircle2, RotateCcw, FileCheck, FileSignature, ShieldAlert, Sparkles } from "lucide-react";
 

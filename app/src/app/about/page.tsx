@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LADING_ADDRESS, addrUrl, USDT } from "@/lib/chain";
-import { Card, Ext, Button } from "@/components/ui";
+import { Card, Ext, Button } from "@/components/lading-ui";
 import { ArrowLeft, BookOpen, ShieldCheck, FileCode, Scale, Sparkles, ArrowRight } from "lucide-react";
 
 
