@@ -16,3 +16,7 @@ node_modules/
 out/
 .vercel
 *.tsbuildinfo
+
+# event research and form answers live in the Inertia vault, not in a public repo
+docs/EVENT.md
+docs/FORM-GAS.md
