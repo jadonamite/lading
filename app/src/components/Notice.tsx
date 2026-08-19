@@ -1,17 +1,8 @@
 "use client";
 
 import { Op, OP_LABEL, Reason, labelOf, shortAddr, asDate, type Finding, type Notice } from "@/lib/lading";
+import { AlertTriangle, ShieldAlert, CheckCircle2 } from "lucide-react";
 
-/// The refusal panel.
-///
-/// Under UCP 600 art. 16 a bank that refuses a presentation must give notice stating each
-/// discrepancy — it may not simply decline. That obligation is why `present()` does not
-/// revert on a non-conforming document: a revert records nothing, and the whole value of a
-/// refusal is the reason attached to it.
-///
-/// Two things have to be unmistakable at a glance, and in this order: **the money did not
-/// move**, and **exactly which condition failed**. A user who has just been refused is
-/// looking for the loss first. Telling them nothing was lost is the more urgent fact.
 export function RefusalPanel({
   finding,
   className,
@@ -20,14 +11,19 @@ export function RefusalPanel({
   className?: string;
 }) {
   return (
-    <div className={`rounded-lg border-2 border-refuse bg-refuse-2 p-5 ${className ?? ""}`}>
-      <p className="text-2xl font-bold uppercase tracking-tight text-refuse sm:text-3xl">
-        Refused — funds unmoved
-      </p>
-      <p className="mt-1 text-sm text-refuse/80">
-        The credit is still open. Nothing was taken, nothing was paid, and you may present again.
-      </p>
-      <div className="mt-4 border-t border-refuse/25 pt-3">
+    <div className={`rounded-2xl border-2 border-rose-500/40 bg-rose-950/40 p-6 backdrop-blur-xl shadow-xl shadow-rose-950/20 ${className ?? ""}`}>
+      <div className="flex items-center gap-3">
+        <ShieldAlert className="h-8 w-8 text-rose-400 shrink-0" />
+        <div>
+          <p className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight text-rose-400">
+            Refused — funds unmoved
+          </p>
+          <p className="mt-0.5 text-sm text-rose-200/80">
+            The credit is still open. Nothing was taken, nothing was paid, and you may present again.
+          </p>
+        </div>
+      </div>
+      <div className="mt-5 border-t border-rose-500/20 pt-4">
         <Discrepancy finding={finding} />
       </div>
     </div>
@@ -43,19 +39,22 @@ export function Discrepancy({
 
   if (reason === Reason.DocumentHash) {
     return (
-      <div className="space-y-2">
-        <p className="label !text-refuse">Discrepancy · the document</p>
-        <p className="text-sm text-ink">
-          The document presented is not the document this credit calls for.
+      <div className="space-y-2.5">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 text-rose-400" />
+          <p className="label !text-rose-400">Discrepancy · Required Document Hash</p>
+        </div>
+        <p className="text-sm text-slate-200">
+          The document presented does not match the SHA-256 hash specified for this credit.
         </p>
-        <dl className="mono space-y-1 text-xs">
-          <div className="flex gap-2">
-            <dt className="w-20 shrink-0 text-ink-3">required</dt>
-            <dd className="truncate">{toHash(finding.expected)}</dd>
+        <dl className="mono space-y-1.5 rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs">
+          <div className="flex gap-3">
+            <dt className="w-24 shrink-0 text-slate-400">required</dt>
+            <dd className="truncate text-slate-200">{toHash(finding.expected)}</dd>
           </div>
-          <div className="flex gap-2">
-            <dt className="w-20 shrink-0 text-ink-3">presented</dt>
-            <dd className="truncate text-refuse">{toHash(finding.presented)}</dd>
+          <div className="flex gap-3">
+            <dt className="w-24 shrink-0 text-slate-400">presented</dt>
+            <dd className="truncate text-rose-400 font-semibold">{toHash(finding.presented)}</dd>
           </div>
         </dl>
       </div>
@@ -64,13 +63,15 @@ export function Discrepancy({
 
   if (reason === Reason.FieldMissing) {
     return (
-      <div className="space-y-2">
-        <p className="label !text-refuse">Discrepancy · a missing field</p>
-        <p className="text-sm text-ink">
-          The credit requires <strong className="mono">{labelOf(finding.field)}</strong>, and the
-          presentation does not state it.
+      <div className="space-y-2.5">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 text-rose-400" />
+          <p className="label !text-rose-400">Discrepancy · Missing Bounding Field</p>
+        </div>
+        <p className="text-sm text-slate-200">
+          The credit requires condition field <strong className="mono text-white">{labelOf(finding.field)}</strong>, but the presentation omitted it.
         </p>
-        <p className="mono text-xs text-ink-3">
+        <p className="mono text-xs text-slate-400 rounded-xl border border-slate-800 bg-slate-950 p-3">
           required: {labelOf(finding.field)} {OP_LABEL[Number(finding.op) as Op]}{" "}
           {finding.expected.toString()}
         </p>
@@ -80,32 +81,38 @@ export function Discrepancy({
 
   if (reason === Reason.FieldFailed) {
     return (
-      <div className="space-y-2">
-        <p className="label !text-refuse">Discrepancy · a field out of bounds</p>
-        <p className="text-sm text-ink">
-          <strong className="mono">{labelOf(finding.field)}</strong>{" "}
-          {OP_LABEL[Number(finding.op) as Op]}{" "}
-          <strong className="mono">{finding.expected.toString()}</strong> — presented as{" "}
-          <strong className="mono text-refuse">{finding.presented.toString()}</strong>.
+      <div className="space-y-2.5">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 text-rose-400" />
+          <p className="label !text-rose-400">Discrepancy · Field Out of Bounds</p>
+        </div>
+        <p className="text-sm text-slate-200">
+          Condition field <strong className="mono text-white">{labelOf(finding.field)}</strong> must be{" "}
+          <span className="mono font-semibold text-emerald-400">
+            {OP_LABEL[Number(finding.op) as Op]} {finding.expected.toString()}
+          </span>
+          , but was presented as <strong className="mono text-rose-400">{finding.presented.toString()}</strong>.
         </p>
       </div>
     );
   }
 
-  return <p className="text-sm text-ink-2">Conforming.</p>;
+  return (
+    <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold">
+      <CheckCircle2 className="h-4 w-4" />
+      <span>Conforming — All terms satisfied.</span>
+    </div>
+  );
 }
 
-/// A stored notice of refusal, read back from the chain. Both parties can retrieve every
-/// refusal a credit ever received — a credit that quietly forgets why it refused someone is
-/// not evidence of anything.
 export function NoticeRow({ notice }: { notice: Notice }) {
   return (
-    <li className="border-b rule py-3 last:border-0">
-      <div className="flex items-baseline justify-between gap-3">
-        <span className="mono text-xs text-ink-3">{shortAddr(notice.presenter)}</span>
-        <span className="mono text-xs text-ink-3">{asDate(notice.at)}</span>
+    <li className="border-b border-slate-800/80 py-4 last:border-0">
+      <div className="flex items-center justify-between gap-3 text-xs mb-2">
+        <span className="mono text-slate-400">Presenter: {shortAddr(notice.presenter)}</span>
+        <span className="mono text-slate-400">{asDate(notice.at)}</span>
       </div>
-      <div className="mt-2">
+      <div className="mt-1">
         <Discrepancy finding={notice} />
       </div>
     </li>
@@ -113,3 +120,4 @@ export function NoticeRow({ notice }: { notice: Notice }) {
 }
 
 const toHash = (v: bigint) => "0x" + v.toString(16).padStart(64, "0");
+

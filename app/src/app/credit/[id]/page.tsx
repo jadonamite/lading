@@ -21,6 +21,7 @@ import {
 } from "@/lib/lading";
 import { Badge, Button, Card, Empty, Ext, Row } from "@/components/ui";
 import { NoticeRow } from "@/components/Notice";
+import { ArrowLeft, CheckCircle2, RotateCcw, FileCheck, FileSignature, ShieldAlert, Sparkles } from "lucide-react";
 
 export default function CreditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: idParam } = use(params);
@@ -37,16 +38,15 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
   const { writeContract, data: hash, isPending } = useWriteContract();
   const { isLoading: mining, isSuccess: refunded } = useWaitForTransactionReceipt({ hash });
 
-  // The countdown has to tick, and expiry is the hinge the whole page turns on.
   const [, setTick] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setTick((n) => n + 1), 1000);
     return () => clearInterval(t);
   }, []);
 
-  if (id === undefined) return <Empty>That is not a credit number.</Empty>;
+  if (id === undefined) return <Empty>That is not a valid credit identifier.</Empty>;
   if (error) return <Empty>No credit #{idParam} exists on this contract.</Empty>;
-  if (!credit) return <Empty>Reading the chain…</Empty>;
+  if (!credit) return <Empty>Reading chain state…</Empty>;
 
   const state = Number(credit.state) as State;
   const expired = isExpired(credit.expiry);
@@ -54,48 +54,69 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
   const isApplicant = address?.toLowerCase() === credit.applicant.toLowerCase();
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="label">Credit #{idParam}</p>
-          <h1 className="mono mt-1 text-3xl font-semibold tracking-tight">{amount}</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          {state === State.Honoured ? (
-            <Badge tone="honoured">honoured</Badge>
-          ) : state === State.Refunded ? (
-            <Badge tone="refunded">refunded</Badge>
-          ) : expired ? (
-            <Badge tone="warn">expired · awaiting refund</Badge>
-          ) : (
-            <Badge tone="open">open · {countdown(credit.expiry)} left</Badge>
-          )}
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-3"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Back to explorer</span>
+        </Link>
+
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="mono text-xs font-semibold uppercase tracking-wider text-emerald-400">
+              Documentary Credit #{idParam}
+            </p>
+            <h1 className="mono mt-1 text-4xl font-extrabold tracking-tight text-white">{amount}</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            {state === State.Honoured ? (
+              <Badge tone="honoured">Honoured · Paid</Badge>
+            ) : state === State.Refunded ? (
+              <Badge tone="refunded">Refunded · Lapsed</Badge>
+            ) : expired ? (
+              <Badge tone="warn">Expired · Awaiting Refund</Badge>
+            ) : (
+              <Badge tone="open">Open · {countdown(credit.expiry)} left</Badge>
+            )}
+          </div>
         </div>
       </div>
 
       {state === State.Honoured ? (
-        <div className="rounded-lg border-2 border-seal bg-seal/5 p-5">
-          <p className="text-2xl font-bold uppercase tracking-tight text-seal">Honoured — paid</p>
-          <p className="mt-1 text-sm text-ink-2">
-            The documents conformed and {amount} went to the beneficiary in that same transaction.
-            Nothing was released by anyone; there is nobody here who could have.
-          </p>
+        <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl shadow-lg shadow-emerald-950/30">
+          <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">
+              Honoured — Funds Transferred
+            </p>
+            <p className="mt-1 text-sm text-slate-300 leading-relaxed">
+              The documents presented conformed to 100% of defined conditions. <strong className="text-white">{amount}</strong> was automatically dispatched to the beneficiary in that single atomic transaction. Zero administrator intervention occurred.
+            </p>
+          </div>
         </div>
       ) : null}
 
       {state === State.Refunded ? (
-        <div className="rounded-lg border rule bg-paper-2 p-5">
-          <p className="text-xl font-semibold tracking-tight">Refunded</p>
-          <p className="mt-1 text-sm text-ink-2">
-            The credit lapsed without a conforming presentation and {amount} returned to the
-            applicant.
-          </p>
+        <div className="flex items-start gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
+          <RotateCcw className="h-8 w-8 text-slate-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-xl font-bold tracking-tight text-slate-200">Refunded to Applicant</p>
+            <p className="mt-1 text-sm text-slate-400 leading-relaxed">
+              The credit lapsed past its expiry timestamp without receiving a conforming presentation. Escrow funds of <strong className="text-slate-200">{amount}</strong> were automatically returned to applicant <span className="mono text-slate-300">{shortAddr(credit.applicant)}</span>.
+            </p>
+          </div>
         </div>
       ) : null}
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <h2 className="mb-3 text-sm font-semibold">Terms</h2>
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+            <Sparkles className="h-4 w-4 text-emerald-400" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Escrow Terms</h2>
+          </div>
           <Row k="state">{STATE_LABEL[state]}</Row>
           <Row k="applicant">
             <Ext href={addrUrl(credit.applicant)}>{shortAddr(credit.applicant)}</Ext>
@@ -105,7 +126,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
           </Row>
           <Row k="asset">
             {credit.asset === NATIVE ? (
-              <span className="mono">{symbol} (native)</span>
+              <span className="mono text-slate-300">{symbol} (native)</span>
             ) : (
               <Ext href={addrUrl(credit.asset)}>
                 {symbol} · {assetOf(credit.asset).decimals} dp
@@ -113,38 +134,40 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
             )}
           </Row>
           <Row k="face amount">
-            <span className="mono">{amount}</span>
+            <span className="mono font-semibold text-emerald-400">{amount}</span>
           </Row>
           <Row k="expiry">
-            <span className="mono">{asDate(credit.expiry)}</span>
+            <span className="mono text-slate-300">{asDate(credit.expiry)}</span>
           </Row>
-          <Row k="document">
-            <span className="mono" title={credit.docHash}>
+          <Row k="doc hash">
+            <span className="mono text-xs text-slate-400" title={credit.docHash}>
               {credit.docHash.slice(0, 18)}…
             </span>
           </Row>
           {credit.amendmentSeq > 0 ? (
             <Row k="amendments">
-              <span className="mono">{credit.amendmentSeq}</span>
+              <span className="mono text-slate-300">{credit.amendmentSeq} applied</span>
             </Row>
           ) : null}
         </Card>
 
         <Card>
-          <h2 className="mb-3 text-sm font-semibold">Conditions</h2>
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+            <FileCheck className="h-4 w-4 text-emerald-400" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Mechanical Conditions</h2>
+          </div>
           {!spec || spec.length === 0 ? (
-            <p className="text-sm text-ink-2">
-              None beyond the document itself. A pure documentary credit: present the agreed
-              document and it is honoured.
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Pure documentary credit — zero custom conditions. Presenting the exact required document hash will immediately release funds.
             </p>
           ) : (
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {spec.map((f, i) => (
-                <li key={i} className="flex items-baseline justify-between gap-3 border-b rule py-2 last:border-0">
-                  <span className="mono text-sm">{labelOf(f.key)}</span>
-                  <span className="text-sm text-ink-2">
+                <li key={i} className="flex items-baseline justify-between gap-3 border-b border-slate-800/80 pb-2.5 last:border-0">
+                  <span className="mono text-xs font-semibold text-slate-300">{labelOf(f.key)}</span>
+                  <span className="text-xs text-slate-400">
                     {OP_LABEL[Number(f.op) as Op]}{" "}
-                    <span className="mono font-medium text-ink">{f.value.toString()}</span>
+                    <span className="mono font-bold text-emerald-400">{f.value.toString()}</span>
                   </span>
                 </li>
               ))}
@@ -154,59 +177,72 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       </div>
 
       {state === State.Open ? (
-        <div className="flex flex-wrap items-center gap-3">
-          {!expired ? (
-            <Link href={`/credit/${idParam}/present`}>
-              <Button>Present documents</Button>
-            </Link>
-          ) : null}
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Available Actions</h2>
 
-          <Link href={`/credit/${idParam}/amend`}>
-            <Button variant="ghost">Amend the terms</Button>
-          </Link>
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              disabled={!expired || isPending || mining}
-              onClick={() =>
-                writeContract({
-                  address: LADING_ADDRESS,
-                  abi: ladingAbi,
-                  functionName: "refund",
-                  args: [id],
-                })
-              }
-            >
-              {isPending ? "Confirm in wallet…" : mining ? "Refunding…" : "Refund the applicant"}
-            </Button>
+          <div className="flex flex-wrap items-center gap-3">
             {!expired ? (
-              <span className="text-xs text-ink-3">
-                available in {countdown(credit.expiry)} — the undertaking stands until then, and
-                not even the applicant can withdraw it
+              <Link href={`/credit/${idParam}/present`}>
+                <Button size="lg" className="gap-2">
+                  <FileCheck className="h-4 w-4" />
+                  <span>Present Documents</span>
+                </Button>
+              </Link>
+            ) : null}
+
+            <Link href={`/credit/${idParam}/amend`}>
+              <Button variant="ghost" size="lg" className="gap-2">
+                <FileSignature className="h-4 w-4" />
+                <span>Amend Terms</span>
+              </Button>
+            </Link>
+
+            <div className="flex items-center gap-3">
+              <Button
+                variant="secondary"
+                size="lg"
+                disabled={!expired || isPending || mining}
+                onClick={() =>
+                  writeContract({
+                    address: LADING_ADDRESS,
+                    abi: ladingAbi,
+                    functionName: "refund",
+                    args: [id],
+                  })
+                }
+              >
+                {isPending ? "Confirm in wallet…" : mining ? "Refunding…" : "Refund Applicant"}
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-xs text-slate-400">
+            {!expired ? (
+              <span>
+                Refund unlocks in <strong className="text-amber-400">{countdown(credit.expiry)}</strong>. The irrevocable undertaking stands until expiry.
               </span>
             ) : (
-              <span className="text-xs text-ink-3">
-                anyone may trigger this; the money can only go to the applicant
-                {isApplicant ? " — that is you" : ""}
+              <span>
+                Credit expired. Anyone may trigger refund; funds can strictly return to applicant <span className="mono text-slate-300">{shortAddr(credit.applicant)}</span>.
               </span>
             )}
           </div>
 
-          {hash ? <Ext href={txUrl(hash)}><span className="text-xs">transaction</span></Ext> : null}
-          {refunded ? <span className="text-xs text-seal">refunded</span> : null}
+          {hash ? <Ext href={txUrl(hash)}><span className="text-xs">view refund transaction</span></Ext> : null}
+          {refunded ? <span className="text-xs font-semibold text-emerald-400">Refund confirmed</span> : null}
         </div>
       ) : null}
 
       <Card>
-        <h2 className="mb-1 text-sm font-semibold">Notices of refusal</h2>
-        <p className="mb-3 text-xs text-ink-3">
-          Every refused presentation, kept with its reason. Under UCP 600 art. 16 a refusal must
-          state each discrepancy — a credit that forgets why it refused someone is not evidence of
-          anything.
+        <div className="flex items-center gap-2 mb-2">
+          <ShieldAlert className="h-4 w-4 text-rose-400" />
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Notices of Refusal (UCP 600 Art. 16)</h2>
+        </div>
+        <p className="mb-4 text-xs text-slate-400">
+          Every presentation attempt is recorded on-chain with exact discrepancy reasons. Under UCP 600, bank refusals must state every failed condition.
         </p>
         {!notices || notices.length === 0 ? (
-          <Empty>No presentation has been refused.</Empty>
+          <Empty>No presentation has been refused on this credit.</Empty>
         ) : (
           <ul>
             {[...notices].reverse().map((n, i) => (
@@ -218,3 +254,4 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
     </div>
   );
 }
+

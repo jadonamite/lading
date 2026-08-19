@@ -1,41 +1,45 @@
 @import "tailwindcss";
 
-/* A documentary credit is a legal instrument, and the interface is a form. The palette is
-   paper and ink with one alarm colour, because the loudest thing this product ever says is
-   REFUSED — FUNDS UNMOVED, and nothing else on screen is allowed to compete with it. */
 @theme {
-  --color-paper: #f7f5f0;
-  --color-paper-2: #efece4;
-  --color-ink: #16150f;
-  --color-ink-2: #4a4740;
-  --color-ink-3: #7d786d;
-  --color-rule: #d9d4c7;
-  --color-seal: #1c4a3f;
-  --color-seal-2: #2a6b5a;
-  --color-refuse: #9e2a1e;
-  --color-refuse-2: #fdeceA;
-  --color-pending: #8a6a12;
+  --color-paper: #080d16;
+  --color-paper-2: #0e1726;
+  --color-paper-3: #131f33;
+  --color-ink: #f8fafc;
+  --color-ink-2: #94a3b8;
+  --color-ink-3: #64748b;
+  --color-rule: #1e293b;
+  --color-rule-light: #334155;
+  --color-seal: #10b981;
+  --color-seal-2: #059669;
+  --color-seal-glow: rgba(16, 185, 129, 0.15);
+  --color-refuse: #ef4444;
+  --color-refuse-2: #450a0a;
+  --color-refuse-glow: rgba(239, 68, 68, 0.15);
+  --color-pending: #f59e0b;
+  --color-pending-2: #78350f;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Fira Code", monospace;
 }
 
 html {
-  background: var(--color-paper);
+  background-color: var(--color-paper);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  min-height: 100vh;
 }
 
 .rule {
   border-color: var(--color-rule);
 }
 
-/* Hashes, addresses and amounts are evidence. They get a machine face and they never wrap
-   into ambiguity. */
 .mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -50,12 +54,64 @@ body {
   font-weight: 600;
 }
 
-input,
-select {
-  font-family: inherit;
+/* Glassmorphism & Splyt Card Effects */
+.glass-card {
+  background: rgba(14, 23, 38, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-input::placeholder {
-  color: var(--color-ink-3);
-  opacity: 0.7;
+.glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.glass-card-hover:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.12);
+  transform: translateY(-2px);
+}
+
+.glass-header {
+  background: rgba(8, 13, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glow-seal {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+}
+
+.glow-refuse {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  color-scheme: dark;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-ink-3);
+  opacity: 0.8;
+}
+

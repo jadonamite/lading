@@ -8,6 +8,7 @@ import { LADING_ADDRESS, txUrl } from "@/lib/chain";
 import { useAmendmentHash, useCredit, useHasSigned } from "@/lib/hooks";
 import { asDate, hashDocument, shortAddr, State } from "@/lib/lading";
 import { Button, Card, Empty, Ext, Field, Input } from "@/components/ui";
+import { ArrowLeft, FileSignature, CheckCircle2, ShieldCheck, FileUp, Clock } from "lucide-react";
 
 export default function AmendPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: idParam } = use(params);
@@ -34,14 +35,14 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
   const { writeContract, data: hash, isPending } = useWriteContract();
   const { isLoading: mining, isSuccess: sent } = useWaitForTransactionReceipt({ hash });
 
-  if (id === undefined) return <Empty>That is not a credit number.</Empty>;
-  if (!credit) return <Empty>Reading the chain…</Empty>;
+  if (id === undefined) return <Empty>That is not a valid credit identifier.</Empty>;
+  if (!credit) return <Empty>Reading chain state…</Empty>;
   if (Number(credit.state) !== State.Open) {
     return (
       <Empty>
         A settled credit cannot be amended.{" "}
-        <Link className="underline" href={`/credit/${idParam}`}>
-          Back to the credit
+        <Link className="underline text-emerald-400 font-semibold" href={`/credit/${idParam}`}>
+          Back to Credit #{idParam}
         </Link>
       </Empty>
     );
@@ -54,72 +55,92 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
   const bothSigned = applicantSigned && beneficiarySigned;
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <Link href={`/credit/${idParam}`} className="text-sm text-ink-3 hover:text-ink">
-          ← credit #{idParam}
+        <Link
+          href={`/credit/${idParam}`}
+          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-2"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Back to Credit #{idParam}</span>
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Amend the terms</h1>
-        <p className="mt-2 text-sm text-ink-2">
-          Under UCP 600 art. 10 nobody amends a credit alone. Your signature does nothing until
-          the other party signs the <em>identical</em> terms — and the moment they do, the
-          amendment applies itself. The face amount is not amendable; that would be a different
-          undertaking.
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white">Amend Credit Terms</h1>
+          <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
+            UCP 600 Art. 10
+          </span>
+        </div>
+        <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+          Under UCP 600 Article 10, no party may amend a credit unilaterally. Your signature does nothing until the counterparty signs the <strong className="text-slate-200">exact identical terms</strong>. The moment both sign, the amendment applies automatically.
         </p>
       </div>
 
-      <Card className="space-y-5">
+      <Card className="space-y-6">
         <Field
-          label="New expiry"
-          hint={`currently ${asDate(credit.expiry)} — leave blank to keep it`}
+          label="New Expiry Timestamp"
+          hint={`Currently ${asDate(credit.expiry)} — leave blank to keep unchanged`}
         >
           <Input type="datetime-local" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
         </Field>
 
-        <Field label="New required document" hint="leave blank to keep the document already agreed">
-          <input
-            type="file"
-            className="block w-full text-sm file:mr-3 file:rounded-md file:border file:border-rule file:bg-white file:px-3 file:py-1.5 file:text-sm"
-            onChange={async (e) => {
-              const f = e.target.files?.[0];
-              if (!f) return;
-              setDocName(f.name);
-              setDocHash(await hashDocument(f));
-            }}
-          />
-          <p className="mono mt-2 truncate text-xs text-ink-3">
-            {docHash ? `${docName} → ${docHash}` : credit.docHash}
-          </p>
+        <Field label="New Required Document Hash" hint="Leave blank to keep currently required document hash">
+          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950/60 p-6 text-center transition-colors hover:border-emerald-500/50">
+            <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
+            <p className="text-xs font-semibold text-slate-300">
+              Select new document to compute SHA-256
+            </p>
+            <input
+              type="file"
+              className="absolute inset-0 opacity-0 cursor-pointer"
+              onChange={async (e) => {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                setDocName(f.name);
+                setDocHash(await hashDocument(f));
+              }}
+            />
+            <p className="mono mt-3 text-xs text-slate-400 truncate max-w-md">
+              {docHash ? `${docName} → ${docHash}` : `Current: ${credit.docHash}`}
+            </p>
+          </div>
         </Field>
       </Card>
 
       <Card>
-        <h2 className="mb-3 text-sm font-semibold">Consent</h2>
-        <Signature
-          who="Applicant"
-          addr={credit.applicant}
-          signed={!!applicantSigned}
-          you={!!isApplicant}
-        />
-        <Signature
-          who="Beneficiary"
-          addr={credit.beneficiary}
-          signed={!!beneficiarySigned}
-          you={!!isBeneficiary}
-        />
+        <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+          <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Mutual Consent Status</h2>
+        </div>
+        <div className="space-y-2">
+          <Signature
+            who="Applicant"
+            addr={credit.applicant}
+            signed={!!applicantSigned}
+            you={!!isApplicant}
+          />
+          <Signature
+            who="Beneficiary"
+            addr={credit.beneficiary}
+            signed={!!beneficiarySigned}
+            you={!!isBeneficiary}
+          />
+        </div>
         {hashOfTerms ? (
-          <p className="mono mt-3 truncate text-xs text-ink-3" title={hashOfTerms}>
-            these terms: {hashOfTerms.slice(0, 26)}…
-          </p>
+          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950 p-3">
+            <p className="mono truncate text-xs text-slate-400" title={hashOfTerms}>
+              Proposed Terms EIP-712 Digest: <span className="text-slate-200">{hashOfTerms}</span>
+            </p>
+          </div>
         ) : null}
-        <p className="mt-2 text-xs text-ink-3">
-          A signature is bound to this chain, this contract, this credit and its current
-          amendment number — so it cannot be replayed anywhere, or reused on the next amendment.
+        <p className="mt-3 text-xs text-slate-400">
+          Signatures are domain-bound to this contract, chain, credit sequence, and amendment index to strictly prevent replay attacks.
         </p>
       </Card>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-4">
         <Button
+          size="lg"
+          className="gap-2"
           disabled={!isConnected || !isParty || isPending || mining || !newExpiry || !newDoc}
           onClick={() =>
             writeContract({
@@ -130,23 +151,26 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
             })
           }
         >
-          {isPending ? "Confirm in wallet…" : mining ? "Signing…" : "Sign these terms"}
+          <FileSignature className="h-4 w-4" />
+          <span>{isPending ? "Confirm in Wallet…" : mining ? "Recording Signature…" : "Sign Amendment Terms"}</span>
         </Button>
         {!isParty && isConnected ? (
-          <span className="text-xs text-ink-3">only the applicant and the beneficiary may sign</span>
+          <span className="text-xs text-slate-400">Only the applicant and beneficiary may sign amendments.</span>
         ) : youSigned ? (
-          <span className="text-xs text-ink-3">you have signed — waiting on the other party</span>
+          <span className="text-xs text-amber-400 font-semibold">You have signed — awaiting counterparty signature.</span>
         ) : null}
-        {hash ? <Ext href={txUrl(hash)}><span className="text-xs">transaction</span></Ext> : null}
+        {hash ? <Ext href={txUrl(hash)}><span className="text-xs">view transaction</span></Ext> : null}
       </div>
 
       {sent && bothSigned ? (
-        <div className="rounded-lg border-2 border-seal bg-seal/5 p-4">
-          <p className="font-semibold text-seal">Amended.</p>
-          <p className="mt-1 text-sm text-ink-2">
-            Both parties signed the same terms and they now govern the credit. The superseded
-            terms stay readable on chain.
-          </p>
+        <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl">
+          <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">Amendment Active!</p>
+            <p className="mt-1 text-sm text-slate-300">
+              Both parties have signed identical terms. The new terms now govern the credit on-chain.
+            </p>
+          </div>
         </div>
       ) : null}
     </div>
@@ -165,17 +189,28 @@ function Signature({
   you: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b rule py-2 last:border-0">
+    <div className="flex items-center justify-between gap-3 border-b border-slate-800/80 py-3 last:border-0">
       <div>
-        <p className="text-sm font-medium">
+        <p className="text-sm font-semibold text-white">
           {who}
-          {you ? <span className="ml-2 text-xs text-ink-3">you</span> : null}
+          {you ? <span className="ml-2 rounded bg-slate-800 px-2 py-0.5 text-[10px] text-emerald-400">You</span> : null}
         </p>
-        <p className="mono text-xs text-ink-3">{shortAddr(addr)}</p>
+        <p className="mono text-xs text-slate-400">{shortAddr(addr)}</p>
       </div>
-      <span className={signed ? "text-sm font-medium text-seal" : "text-sm text-ink-3"}>
-        {signed ? "signed" : "not signed"}
+      <span className={signed ? "flex items-center gap-1.5 text-xs font-bold text-emerald-400" : "flex items-center gap-1.5 text-xs text-slate-500"}>
+        {signed ? (
+          <>
+            <CheckCircle2 className="h-4 w-4" />
+            <span>Signed</span>
+          </>
+        ) : (
+          <>
+            <Clock className="h-4 w-4" />
+            <span>Not Signed</span>
+          </>
+        )}
       </span>
     </div>
   );
 }
+

@@ -1,123 +1,125 @@
 import Link from "next/link";
 import { LADING_ADDRESS, addrUrl, USDT } from "@/lib/chain";
-import { Card, Ext } from "@/components/ui";
+import { Card, Ext, Button } from "@/components/ui";
+import { ArrowLeft, BookOpen, ShieldCheck, FileCode, Scale, Sparkles, ArrowRight } from "lucide-react";
 
-export const metadata = { title: "How Lading works" };
+
+export const metadata = { title: "How Lading Works — UCP 600 Escrow Protocol" };
 
 export default function About() {
   const deployed = LADING_ADDRESS !== "0x0000000000000000000000000000000000000000";
 
   return (
-    <div className="max-w-2xl space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       <div>
-        <p className="label">How it works</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-          A four-hundred-year-old instrument, minus the bank
-        </h1>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-3"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Back to explorer</span>
+        </Link>
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+            A 400-Year-Old Instrument, Minus the Bank
+          </h1>
+        </div>
+        <p className="mt-3 text-base text-slate-400 leading-relaxed max-w-2xl">
+          Understanding Lading&apos;s mechanical UCP 600 implementation and non-custodial smart contract architecture.
+        </p>
       </div>
 
-      <section className="space-y-4 text-ink-2">
+      <section className="space-y-4 text-sm text-slate-300 leading-relaxed rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
         <p>
-          A seller in one country will not ship to a buyer in another they have never met, and the
-          buyer will not pay first. The documentary credit resolved that standoff by putting a
-          bank in the middle: the buyer&apos;s bank undertakes to pay the seller — not when the
-          goods arrive, but when the <em>paperwork</em> arrives and matches what was agreed.
+          A seller in one country will not ship to a buyer in another they have never met, and the buyer will not pay upfront. The documentary credit resolved that standoff by introducing a trusted intermediary: the buyer&apos;s bank undertakes to pay the seller — not when the goods physically arrive, but when the <strong className="text-white">paperwork</strong> arrives matching the agreed terms.
         </p>
         <p>
-          The rules are UCP 600, published by the International Chamber of Commerce and in force
-          since 2007. The insight that makes it work is a strange one:{" "}
-          <strong className="text-ink">the bank never verifies the goods.</strong> It verifies
-          documents against a specification, mechanically, and pays or refuses on that basis alone.
+          The governing standard is UCP 600, published by the International Chamber of Commerce and enforced globally since 2007. The insight that enables automation is clear: <strong className="text-emerald-400">the bank never verifies the physical goods.</strong> It verifies documents against a strict specification, mechanically, and pays or refuses on that basis alone.
         </p>
         <p>
-          A mechanical check is exactly what a contract does well. What genuinely needed a bank was
-          custody of the money in between — and custody is the one thing a settlement layer
-          provides for free.
+          A mechanical specification is precisely what an EVM smart contract executes flawlessly. What genuinely required a financial institution was custody of funds — custody that a decentralized settlement layer provides algorithmically for free.
         </p>
       </section>
 
       <Card>
-        <h2 className="mb-3 font-semibold">The whole instrument</h2>
-        <ol className="space-y-3 text-sm text-ink-2">
-          <li>
-            <strong className="text-ink">Open.</strong> The applicant states the beneficiary, who
-            may present, the asset and amount, an expiry, the required document, and a list of
-            conditions. The money moves in with the terms; from that instant the applicant cannot
-            reach it either.
+        <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+          <BookOpen className="h-5 w-5 text-emerald-400" />
+          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">The Lifecycle of a Credit</h2>
+        </div>
+        <ol className="space-y-4 text-sm text-slate-300">
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">1</span>
+            <div>
+              <strong className="text-white">Open.</strong> The applicant defines the beneficiary, nominated presenters, token asset, face amount, expiry timestamp, required document hash, and mechanical conditions. Funds are deposited into escrow; from that moment, applicant cannot reclaim until expiry.
+            </div>
           </li>
-          <li>
-            <strong className="text-ink">Present.</strong> A nominated presenter supplies the
-            document and its stated values. The contract checks the document hash, then walks the
-            conditions in order. Conforming means paid — in that same transaction.
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">2</span>
+            <div>
+              <strong className="text-white">Present.</strong> A nominated presenter submits document byte hash and condition values. The contract evaluates document hash matching and walks conditions in sequence. Conforming presentation triggers instant transfer in the exact same transaction.
+            </div>
           </li>
-          <li>
-            <strong className="text-ink">Refuse.</strong> A non-conforming presentation does not
-            revert. It records a notice naming the failed condition, its bound, and what was
-            presented. The credit stays open; the money never moved. Art. 16 requires a refusing
-            bank to state each discrepancy, and a revert would record nothing at all.
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">3</span>
+            <div>
+              <strong className="text-white">Refuse.</strong> Non-conforming presentation does not revert transaction state. It records a permanent on-chain Notice of Refusal stating exact failed conditions and presented values per UCP 600 Article 16. Credit remains open; escrow funds do not move.
+            </div>
           </li>
-          <li>
-            <strong className="text-ink">Amend.</strong> Terms change only when applicant and
-            beneficiary have both signed the identical amendment (art. 10). One signature does
-            nothing.
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">4</span>
+            <div>
+              <strong className="text-white">Amend.</strong> Terms change strictly when applicant and beneficiary sign identical EIP-712 amendment terms per UCP 600 Article 10. Single-party signature does not alter contract state.
+            </div>
           </li>
-          <li>
-            <strong className="text-ink">Expire.</strong> After expiry, an unhonoured credit
-            refunds the applicant in full. Anyone may trigger it, because the money can only go to
-            one place.
+          <li className="flex items-start gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">5</span>
+            <div>
+              <strong className="text-white">Expire.</strong> Past expiry, unhonoured credit unlocks 100% refund to applicant. Permissionless execution ensures funds strictly return to applicant.
+            </div>
           </li>
         </ol>
       </Card>
 
       <Card>
-        <h2 className="mb-3 font-semibold">There is no administrator</h2>
-        <p className="text-sm text-ink-2">
-          No owner, no role, no pause, no upgrade path, no <span className="mono">selfdestruct</span>
-          , and no <span className="mono">receive</span> or <span className="mono">fallback</span>.
-          Funded value leaves through exactly two functions — an honoured presentation and a refund
-          after expiry — and neither consults anyone&apos;s discretion. A test fuzzes every external
-          function from every address across every state and asserts the escrow balance only ever
-          changes by the exact face amount, through those two paths.
+        <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
+          <ShieldCheck className="h-5 w-5 text-emerald-400" />
+          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">Zero Administrator Model</h2>
+        </div>
+        <p className="text-sm text-slate-300 leading-relaxed">
+          No owner, no pause role, no upgrade proxy, no <span className="mono text-emerald-400">selfdestruct</span>, and no fallback deposit traps. Escrow funds leave through exactly two functions: an honoured presentation or a post-expiry refund. Neither function consults administrator discretion.
         </p>
-        <p className="mt-3 text-sm text-ink-2">
-          This is the part you should not take on trust.{" "}
+        <p className="mt-3 text-sm text-slate-400">
+          Source code is 100% open and verified on-chain:{" "}
           {deployed ? (
-            <>
-              The source is verified on the explorer:{" "}
-              <Ext href={addrUrl(LADING_ADDRESS)}>read it</Ext>. It is 470 lines.
-            </>
+            <Ext href={addrUrl(LADING_ADDRESS)}>
+              <span className="font-semibold text-emerald-400 hover:underline">Read Lading.sol on Explorer</span>
+            </Ext>
           ) : (
-            <>The source is verified on the explorer once deployed.</>
+            <span>Verified on block explorer upon deployment.</span>
           )}
         </p>
       </Card>
 
       <Card>
-        <h2 className="mb-3 font-semibold">What this does not claim</h2>
-        <p className="text-sm text-ink-2">
-          The chain proves that the bytes presented matched the bytes agreed, and that the stated
-          values satisfied the stated bounds. It does not prove the goods exist, that they were
-          shipped, or that the document is truthful. That gap is not an oversight — it is the same
-          gap UCP 600 runs on by design, which is why the instrument names an inspector when the
-          gap matters. Any product claiming to have closed it from a browser is lying to you.
+        <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
+          <Scale className="h-5 w-5 text-emerald-400" />
+          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">What This Does Not Claim</h2>
+        </div>
+
+        <p className="text-sm text-slate-300 leading-relaxed">
+          The smart contract proves that presented file bytes match the agreed SHA-256 hash, and that presented numerical values satisfy defined bounds. It does not inspect physical goods or guarantee document truthfulness. That gap is identical to traditional bank documentary credits under UCP 600, which is why nominated third-party inspectors exist when physical verification matters.
         </p>
       </Card>
 
-      <Card>
-        <h2 className="mb-3 font-semibold">On this chain</h2>
-        <p className="text-sm text-ink-2">
-          Credits settle in the chain&apos;s real <Ext href={addrUrl(USDT)}>USDT</Ext> — a
-          six-decimal token with 289,324 holders and verified source — or in native BOT. The
-          contract never converts decimals at all: it holds and moves the asset&apos;s own base
-          unit, so an amount cannot be silently rescaled on the way in or out.
-        </p>
-      </Card>
-
-      <p className="text-sm">
-        <Link href="/open" className="text-seal underline">
-          Open a credit →
+      <div className="pt-2">
+        <Link href="/open">
+          <Button size="lg" className="gap-2">
+            <span>Open a Credit Escrow</span>
+            <ArrowRight className="h-4 w-4" />
+          </Button>
         </Link>
-      </p>
+      </div>
     </div>
   );
 }
+

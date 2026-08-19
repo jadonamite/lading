@@ -10,6 +10,8 @@ import { ASSETS, NATIVE } from "@/lib/assets";
 import { toBaseUnits, toFieldValue } from "@/lib/units";
 import { KNOWN_FIELDS, Op, OP_SYMBOL, fieldKey, hashDocument, ZERO_HASH } from "@/lib/lading";
 import { Button, Card, Ext, Field, Input, Select } from "@/components/ui";
+import { FileUp, Plus, Trash2, ArrowLeft, ShieldAlert, Sparkles, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 type SpecRow = { label: string; op: Op; value: string };
 
@@ -49,8 +51,6 @@ export default function OpenCredit() {
     }
   }, [face, asset.decimals]);
 
-  // The id is read out of the CreditOpened log rather than guessed from nextId — two people
-  // opening credits in the same block would otherwise land on the same page.
   const newId = useMemo(() => {
     if (!receipt) return undefined;
     for (const log of receipt.logs) {
@@ -118,19 +118,28 @@ export default function OpenCredit() {
   }
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Open a credit</h1>
-        <p className="mt-2 text-sm text-ink-2">
-          You fund it now. From the moment this transaction confirms the money is unreachable —
-          by the beneficiary until they present conforming documents, and{" "}
-          <strong>by you</strong> until expiry. That is the undertaking; there is no button that
-          undoes it.
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-2"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Back to explorer</span>
+        </Link>
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white">Open a Credit</h1>
+          <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
+            Escrow Creation
+          </span>
+        </div>
+        <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+          You fund it now. From the moment this transaction confirms, funds are unreachable — by the beneficiary until they present conforming documents, and <strong className="text-slate-200">by you</strong> until expiry. There is zero administrator release button.
         </p>
       </div>
 
-      <Card className="space-y-5">
-        <Field label="Beneficiary" hint="Paid in full the moment a conforming presentation is made.">
+      <Card className="space-y-6">
+        <Field label="Beneficiary Address" hint="Paid in full the moment a conforming presentation is made on chain.">
           <Input
             placeholder="0x…"
             value={beneficiary}
@@ -139,8 +148,8 @@ export default function OpenCredit() {
         </Field>
 
         <Field
-          label="Nominated presenters"
-          hint="Who may present documents. Leave blank and only the beneficiary may. Separate several with commas — a named inspector belongs here."
+          label="Nominated Presenters"
+          hint="Who may present documents. Leave blank and only the beneficiary may. Separate multiple with commas."
         >
           <Input
             placeholder="0x… , 0x…"
@@ -153,62 +162,68 @@ export default function OpenCredit() {
           <Field label="Asset" hint={asset.note}>
             <Select value={assetAddr} onChange={(e) => setAssetAddr(e.target.value)}>
               {ASSETS.map((a) => (
-                <option key={a.address} value={a.address}>
+                <option key={a.address} value={a.address} className="bg-slate-900 text-slate-100">
                   {a.symbol}
                 </option>
               ))}
             </Select>
           </Field>
 
-          <Field label="Face amount" hint={`${asset.symbol} has ${asset.decimals} decimals`}>
-            <Input placeholder="12.50" value={face} onChange={(e) => setFace(e.target.value)} />
+          <Field label="Face Amount" hint={`${asset.symbol} has ${asset.decimals} decimals`}>
+            <Input placeholder="100.00" value={face} onChange={(e) => setFace(e.target.value)} />
           </Field>
         </div>
 
         <Field
-          label="Expiry"
-          hint="Absolute. A conforming presentation one second later is refused, and you may reclaim the funds."
+          label="Expiry Timestamp"
+          hint="Absolute. A conforming presentation one second later is refused, and you may reclaim 100% of the funds."
         >
           <Input type="datetime-local" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
         </Field>
 
         <Field
-          label="Required document"
-          hint="Hashed in your browser. The file itself is never uploaded anywhere — the chain proves the bytes matched, which is exactly what a bank checks and exactly what it does not."
+          label="Required Document"
+          hint="Hashed locally in your browser. The file content is never uploaded anywhere — only its SHA-256 hash is recorded on-chain."
         >
-          <input
-            type="file"
-            className="block w-full text-sm file:mr-3 file:rounded-md file:border file:border-rule file:bg-white file:px-3 file:py-1.5 file:text-sm"
-            onChange={async (e) => {
-              const f = e.target.files?.[0];
-              if (!f) return;
-              setDocName(f.name);
-              setDocHash(await hashDocument(f));
-            }}
-          />
-          {docHash ? (
-            <p className="mono mt-2 truncate text-xs text-ink-3">
-              {docName} → {docHash}
+          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950/60 p-6 text-center transition-colors hover:border-emerald-500/50">
+            <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
+            <p className="text-xs font-semibold text-slate-300">
+              Select or drop required document to compute SHA-256
             </p>
-          ) : null}
+            <input
+              type="file"
+              className="absolute inset-0 opacity-0 cursor-pointer"
+              onChange={async (e) => {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                setDocName(f.name);
+                setDocHash(await hashDocument(f));
+              }}
+            />
+            {docHash ? (
+              <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center w-full max-w-md">
+                <p className="text-xs font-bold text-emerald-400">{docName}</p>
+                <p className="mono text-[11px] text-slate-300 truncate">{docHash}</p>
+              </div>
+            ) : null}
+          </div>
         </Field>
 
         <div>
-          <span className="label">Conditions</span>
-          <p className="mb-2 mt-1 text-xs text-ink-3">
-            Each condition is checked on chain, in the order you write them. A presentation must
-            satisfy every one.
+          <span className="label text-slate-400 font-semibold">Bounding Conditions</span>
+          <p className="mb-3 mt-1 text-xs text-slate-400">
+            Each condition is evaluated mechanically on chain, in order. A presentation must satisfy 100% of conditions.
           </p>
-          <div className="space-y-2">
+          <div className="space-y-3">
             {rows.map((r, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={i} className="flex flex-wrap sm:flex-nowrap items-center gap-2 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
                 <Select
                   value={r.label}
                   onChange={(e) => setRows(edit(rows, i, { label: e.target.value }))}
-                  className="flex-1"
+                  className="flex-1 min-w-[140px]"
                 >
                   {KNOWN_FIELDS.map((f) => (
-                    <option key={f} value={f}>
+                    <option key={f} value={f} className="bg-slate-900 text-slate-100">
                       {f}
                     </option>
                   ))}
@@ -216,47 +231,54 @@ export default function OpenCredit() {
                 <Select
                   value={r.op}
                   onChange={(e) => setRows(edit(rows, i, { op: Number(e.target.value) as Op }))}
-                  className="w-20"
+                  className="w-24 shrink-0"
                 >
                   {[Op.EQ, Op.LTE, Op.GTE].map((o) => (
-                    <option key={o} value={o}>
+                    <option key={o} value={o} className="bg-slate-900 text-slate-100">
                       {OP_SYMBOL[o]}
                     </option>
                   ))}
                 </Select>
                 <Input
-                  placeholder="500"
+                  placeholder="e.g. 500"
                   value={r.value}
                   onChange={(e) => setRows(edit(rows, i, { value: e.target.value }))}
-                  className="w-32"
+                  className="w-36 shrink-0"
                 />
                 <button
                   onClick={() => setRows(rows.filter((_, j) => j !== i))}
-                  className="px-2 text-ink-3 hover:text-refuse"
-                  title="Remove"
+                  className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                  title="Remove condition"
                 >
-                  ×
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             ))}
           </div>
           <button
             onClick={() => setRows([...rows, { label: KNOWN_FIELDS[0], op: Op.EQ, value: "" }])}
-            className="mt-2 text-sm text-seal hover:underline"
+            className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
             disabled={rows.length >= 16}
           >
-            + add a condition
+            <Plus className="h-4 w-4" />
+            <span>Add Condition</span>
           </button>
         </div>
       </Card>
 
-      {err ? <p className="text-sm text-refuse">{err}</p> : null}
+      {err ? (
+        <div className="flex items-center gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 p-4 text-xs font-semibold text-rose-400">
+          <ShieldAlert className="h-4 w-4 shrink-0" />
+          <span>{err}</span>
+        </div>
+      ) : null}
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-4">
         {!isConnected ? (
-          <p className="text-sm text-ink-3">Connect a wallet to open a credit.</p>
+          <p className="text-sm text-slate-400">Connect wallet to open credit.</p>
         ) : !isNative && !approved ? (
           <Button
+            size="lg"
             disabled={approving || approveMining || faceUnits === 0n}
             onClick={() =>
               writeApprove({
@@ -267,11 +289,11 @@ export default function OpenCredit() {
               })
             }
           >
-            {approving || approveMining ? "Approving…" : `Approve ${face || ""} ${asset.symbol}`}
+            {approving || approveMining ? "Approving Token Escrow…" : `Approve ${face || ""} ${asset.symbol}`}
           </Button>
         ) : (
-          <Button disabled={isPending || mining} onClick={submit}>
-            {isPending ? "Confirm in wallet…" : mining ? "Funding…" : "Open and fund"}
+          <Button size="lg" disabled={isPending || mining} onClick={submit}>
+            {isPending ? "Confirm in Wallet…" : mining ? "Funding Credit Escrow…" : "Open & Fund Credit"}
           </Button>
         )}
 
@@ -281,16 +303,15 @@ export default function OpenCredit() {
           </Ext>
         ) : null}
         {hash && !mining && newId === undefined ? (
-          <button className="text-xs text-ink-3 underline" onClick={() => reset()}>
+          <button className="text-xs text-slate-400 underline hover:text-white" onClick={() => reset()}>
             start over
           </button>
         ) : null}
       </div>
 
       {address ? (
-        <p className="text-xs text-ink-3">
-          Opening as <span className="mono">{address}</span> — you are the applicant, and the
-          refund at expiry pays you.
+        <p className="text-xs text-slate-400">
+          Opening as <span className="mono text-slate-300">{address}</span> — you are designated as applicant, and post-expiry refund returns to this address.
         </p>
       ) : null}
     </div>
@@ -306,3 +327,4 @@ function defaultExpiry() {
   d.setSeconds(0, 0);
   return d.toISOString().slice(0, 16);
 }
+
