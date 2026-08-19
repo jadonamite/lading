@@ -1,6 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/cn";
+import { Card as ShadCard, CardContent } from "@/components/ui/card";
+import { Button as ShadButton } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -12,14 +14,14 @@ export function Card({
   className?: string;
 }) {
   return (
-    <section
+    <ShadCard
       className={cn(
-        "rounded-2xl border border-white/[0.06] bg-muted/60 p-6 backdrop-blur-xl transition-colors duration-300 hover:border-emerald-500/25",
-        className
+        "border-white/[0.06] bg-muted/50 transition-colors duration-300 hover:border-emerald-500/25",
+        className,
       )}
     >
-      {children}
-    </section>
+      <CardContent className="p-6">{children}</CardContent>
+    </ShadCard>
   );
 }
 
@@ -71,40 +73,40 @@ export function Button({
   children,
   variant = "primary",
   size = "md",
+  className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "ghost" | "secondary" | "danger";
   size?: "sm" | "md" | "lg";
 }) {
-  const sizeClasses = {
-    sm: "px-4 py-1.5 text-xs font-medium rounded-full",
-    md: "px-5 py-2.5 text-sm font-medium rounded-full",
-    lg: "px-6 py-3 text-base font-medium rounded-full",
-  };
+  // Mapped onto the shadcn variants, with the hero pill's emerald hover so a
+  // primary action looks the same wherever it appears.
+  const variantMap = {
+    primary: "default",
+    secondary: "outline",
+    ghost: "ghost",
+    danger: "outline",
+  } as const;
 
-  const variantClasses = {
+  const sizeMap = { sm: "sm", md: "default", lg: "lg" } as const;
+
+  const tone = {
     primary:
-      "bg-primary text-primary-foreground hover:bg-emerald-400 hover:text-emerald-950 hover:shadow-[0_0_30px_-6px_rgba(16,185,129,0.7)] active:scale-[0.98]",
-    secondary:
-      "bg-secondary text-secondary-foreground border border-white/[0.08] hover:border-emerald-500/40 hover:text-emerald-300 active:scale-[0.98]",
-    ghost:
-      "border border-white/[0.08] bg-muted/40 text-foreground/80 hover:border-emerald-500/40 hover:bg-muted hover:text-emerald-300 active:scale-[0.98]",
-    danger:
-      "bg-destructive/15 border border-destructive/40 text-destructive hover:bg-destructive/25 active:scale-[0.98]",
-  };
+      "rounded-full hover:bg-emerald-400 hover:text-emerald-950 hover:shadow-[0_0_30px_-6px_rgba(16,185,129,0.7)]",
+    secondary: "rounded-full hover:border-emerald-500/40 hover:text-emerald-300",
+    ghost: "rounded-full hover:text-emerald-300",
+    danger: "rounded-full border-destructive/40 text-destructive hover:bg-destructive/15",
+  } as const;
 
   return (
-    <button
+    <ShadButton
       {...props}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100",
-        sizeClasses[size],
-        variantClasses[variant],
-        props.className
-      )}
+      variant={variantMap[variant]}
+      size={sizeMap[size]}
+      className={cn("gap-2 transition-all duration-200", tone[variant], className)}
     >
       {children}
-    </button>
+    </ShadButton>
   );
 }
 

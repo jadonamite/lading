@@ -12,10 +12,10 @@ export default function AgencyHeroSection() {
   ];
 
   const navigationData: NavigationSection[] = [
-    { title: "Hero", href: "#hero", isActive: true },
-    { title: "How it works", href: "#how-it-works" },
-    { title: "Performance", href: "#performance" },
-    { title: "FAQ", href: "#faq" },
+    { title: "Home", href: "/#hero", isActive: true },
+    { title: "How it works", href: "/#how-it-works" },
+    { title: "The instrument", href: "/#performance" },
+    { title: "FAQ", href: "/#faq" },
   ];
 
   return (

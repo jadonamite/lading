@@ -32,9 +32,9 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   transition={{ duration: 1, ease: "easeInOut" }}
                   className="lg:text-8xl md:text-7xl text-5xl font-medium tracking-tight leading-14 md:leading-20 lg:leading-24"
                 >
-                  Get paid the moment your documents match, with{" "}
+                  Ship before you&apos;re paid.{" "}
                   <span className="font-serif italic tracking-tight text-emerald-300"><br/>
-                    no bank in the middle
+                    Get paid anyway.
                   </span>
                 </motion.h1>
                 <motion.p
@@ -43,14 +43,13 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   transition={{ duration: 1, delay: 0.1, ease: "easeInOut" }}
                   className="text-base font-normal max-w-2xl text-muted-foreground"
                 >
-                  Lading is a letter of credit that settles itself. The buyer locks
-                  the money up front against terms you both agree; the moment you
-                  present documents that meet them, the full amount is
-                  <span className="text-emerald-300"> yours in the same transaction</span>.
-                  If you never do, the buyer is
-                  <span className="text-emerald-300"> refunded automatically</span> at
-                  expiry. No bank, no release button, nobody&apos;s discretion —
-                  including ours.
+                  Lading is a letter of credit that
+                  <span className="text-emerald-300"> pays itself</span>. The buyer locks
+                  the money up front against terms you both agree, and you are paid the
+                  moment your documents match —
+                  <span className="text-emerald-300"> no bank in the middle</span>, no
+                  release button, nobody&apos;s discretion. If you never present, the
+                  buyer is refunded automatically at expiry.
                 </motion.p>
               </div>
               <motion.div
