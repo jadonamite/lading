@@ -17,6 +17,7 @@ type Cell = {
   title: string;
   value: string;
   prefix?: string;
+  suffix?: string;
   note?: string;
   featured?: boolean;
   hatched?: boolean;
@@ -33,9 +34,9 @@ const CELLS: Cell[] = [
   },
   {
     index: "02",
-    title: "Days to get\npaid, here",
+    title: "Seconds to get\npaid, here",
     value: "0",
-    note: "same transaction",
+    note: "the same transaction",
     featured: true,
   },
   { index: "", title: "", value: "", empty: true },
@@ -45,40 +46,43 @@ const CELLS: Cell[] = [
     title: "Bank fee on a\n$100k credit",
     value: "1500",
     prefix: "$",
-    note: "at 1.5% of invoice",
+    note: "typical 1.5% issuance fee",
     hatched: true,
   },
   {
     index: "04",
-    title: "Our fee on the\nsame credit",
+    title: "Administrative\nfunctions",
     value: "0",
-    note: "gas only, paid to the network",
+    note: "no owner \u00b7 no pause \u00b7 no upgrade",
   },
   {
     index: "05",
-    title: "People who can\nfreeze your money",
-    value: "0",
-    note: "no owner · no pause · no upgrade",
+    title: "Ways the money\ncan leave",
+    value: "2",
+    note: "honoured, or refunded",
   },
   {
     index: "06",
-    title: "Paperwork you\nfile by hand",
-    value: "0",
-    hatched: true,
+    title: "Conditions you\ncan set per credit",
+    value: "16",
+    note: "quantities, dates, ids",
   },
 
   { index: "", title: "", value: "", empty: true },
   {
     index: "07",
-    title: "Conditions you\ncan set per credit",
-    value: "16",
-    note: "quantity, dates, ids",
+    title: "Signatures to\nchange the terms",
+    value: "2",
+    note: "both parties, or nothing moves",
+    hatched: true,
   },
   {
     index: "08",
-    title: "Minutes to open\na credit",
-    value: "2",
-    note: "connect, state terms, fund",
+    title: "Global trade\nfinance gap",
+    value: "2.5",
+    prefix: "$",
+    suffix: "tn",
+    note: "ADB \u00b7 2022",
   },
   { index: "", title: "", value: "", empty: true },
 ];
@@ -147,7 +151,8 @@ function GridCell({ cell }: { cell: Cell }) {
             cell.featured ? "text-emerald-400" : "text-muted-foreground/45",
           )}
         >
-          <Counter value={cell.value} />
+          {cell.value.includes(".") ? cell.value : <Counter value={cell.value} />}
+          {cell.suffix}
         </span>
         {cell.note ? (
           <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
@@ -194,9 +199,10 @@ const AboutUs = () => {
               <span className="font-serif italic tracking-tight">no clerk</span>
             </h2>
             <p className="text-base font-normal text-muted-foreground">
-              What the instrument costs you, and what it costs at a bank. Fee and
-              settlement figures are typical commercial ranges for a documentary
-              credit; everything on our side of the table is what the contract does.
+              What it costs at a bank, what it costs here, and how big the problem
+              is. Bank figures are typical commercial ranges for a documentary
+              credit; everything on our side of the table is what the contract does,
+              and can be read straight out of it.
             </p>
           </motion.div>
 
