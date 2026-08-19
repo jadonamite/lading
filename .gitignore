@@ -1,0 +1,18 @@
+# secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+
+# foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+# contracts/lib/ is tracked as git submodules — a judge must be able to build
+
+# node / next
+node_modules/
+.next/
+out/
+.vercel
+*.tsbuildinfo
