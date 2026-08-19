@@ -20,7 +20,7 @@ export default function About() {
           <span>Back to explorer</span>
         </Link>
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">
             A 400-Year-Old Instrument, Minus the Bank
           </h1>
         </div>
@@ -44,35 +44,35 @@ export default function About() {
       <Card>
         <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
           <BookOpen className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">The Lifecycle of a Credit</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">The Lifecycle of a Credit</h2>
         </div>
         <ol className="space-y-4 text-sm text-slate-300">
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">1</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">1</span>
             <div>
               <strong className="text-white">Open.</strong> The applicant defines the beneficiary, nominated presenters, token asset, face amount, expiry timestamp, required document hash, and mechanical conditions. Funds are deposited into escrow; from that moment, applicant cannot reclaim until expiry.
             </div>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">2</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">2</span>
             <div>
               <strong className="text-white">Present.</strong> A nominated presenter submits document byte hash and condition values. The contract evaluates document hash matching and walks conditions in sequence. Conforming presentation triggers instant transfer in the exact same transaction.
             </div>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">3</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">3</span>
             <div>
               <strong className="text-white">Refuse.</strong> Non-conforming presentation does not revert transaction state. It records a permanent on-chain Notice of Refusal stating exact failed conditions and presented values per UCP 600 Article 16. Credit remains open; escrow funds do not move.
             </div>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">4</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">4</span>
             <div>
               <strong className="text-white">Amend.</strong> Terms change strictly when applicant and beneficiary sign identical EIP-712 amendment terms per UCP 600 Article 10. Single-party signature does not alter contract state.
             </div>
           </li>
           <li className="flex items-start gap-3">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">5</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">5</span>
             <div>
               <strong className="text-white">Expire.</strong> Past expiry, unhonoured credit unlocks 100% refund to applicant. Permissionless execution ensures funds strictly return to applicant.
             </div>
@@ -83,7 +83,7 @@ export default function About() {
       <Card>
         <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
           <ShieldCheck className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">Zero Administrator Model</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">Zero Administrator Model</h2>
         </div>
         <p className="text-sm text-slate-300 leading-relaxed">
           No owner, no pause role, no upgrade proxy, no <span className="mono text-emerald-400">selfdestruct</span>, and no fallback deposit traps. Escrow funds leave through exactly two functions: an honoured presentation or a post-expiry refund. Neither function consults administrator discretion.
@@ -103,7 +103,7 @@ export default function About() {
       <Card>
         <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
           <Scale className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-bold uppercase tracking-wider text-slate-200">What This Does Not Claim</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">What This Does Not Claim</h2>
         </div>
 
         <p className="text-sm text-slate-300 leading-relaxed">

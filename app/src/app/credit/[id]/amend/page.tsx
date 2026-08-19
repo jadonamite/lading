@@ -65,7 +65,7 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
           <span>Back to Credit #{idParam}</span>
         </Link>
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">Amend Credit Terms</h1>
+          <h1 className="text-3xl font-medium tracking-tight text-white">Amend Credit Terms</h1>
           <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
             UCP 600 Art. 10
           </span>
@@ -109,7 +109,7 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
       <Card>
         <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
           <ShieldCheck className="h-4 w-4 text-emerald-400" />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Mutual Consent Status</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Mutual Consent Status</h2>
         </div>
         <div className="space-y-2">
           <Signature
@@ -166,7 +166,7 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
         <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl">
           <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">Amendment Active!</p>
+            <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">Amendment Active!</p>
             <p className="mt-1 text-sm text-slate-300">
               Both parties have signed identical terms. The new terms now govern the credit on-chain.
             </p>
@@ -197,7 +197,7 @@ function Signature({
         </p>
         <p className="mono text-xs text-slate-400">{shortAddr(addr)}</p>
       </div>
-      <span className={signed ? "flex items-center gap-1.5 text-xs font-bold text-emerald-400" : "flex items-center gap-1.5 text-xs text-slate-500"}>
+      <span className={signed ? "flex items-center gap-1.5 text-xs font-medium text-emerald-400" : "flex items-center gap-1.5 text-xs text-slate-500"}>
         {signed ? (
           <>
             <CheckCircle2 className="h-4 w-4" />

@@ -109,7 +109,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Credit #{idParam}</span>
         </Link>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white">Present Documents</h1>
+        <h1 className="text-3xl font-medium tracking-tight text-white">Present Documents</h1>
         <p className="mt-2 text-sm text-slate-400 leading-relaxed">
           Conforming documents unlock <strong className="text-emerald-400">{amount}</strong> in the exact transaction that presents them. Zero manual review delay.
         </p>
@@ -119,7 +119,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
         <div className="flex items-center gap-3 rounded-2xl border border-rose-500/40 bg-rose-950/40 p-5 text-rose-300">
           <ShieldAlert className="h-6 w-6 shrink-0 text-rose-400" />
           <div>
-            <p className="font-bold">This credit has expired.</p>
+            <p className="font-medium">This credit has expired.</p>
             <p className="text-xs text-rose-200/80 mt-0.5">
               Expiry is absolute — presentations after expiry are refused. Funds may be reclaimed by applicant.
             </p>
@@ -131,7 +131,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
         <div className="flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 text-amber-300">
           <ShieldAlert className="h-6 w-6 shrink-0 text-amber-400" />
           <div>
-            <p className="font-bold text-sm">Not a Nominated Presenter</p>
+            <p className="font-medium text-sm">Not a Nominated Presenter</p>
             <p className="text-xs text-slate-300 mt-0.5">
               Only addresses nominated by applicant may present against this credit. Perfect documents from unauthorized addresses will be refused.
             </p>
@@ -161,7 +161,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
             />
             {docHash ? (
               <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center w-full max-w-md">
-                <p className="text-xs font-bold text-emerald-400">{docName}</p>
+                <p className="text-xs font-medium text-emerald-400">{docName}</p>
                 <p className="mono text-[11px] text-slate-300 truncate">{docHash}</p>
               </div>
             ) : null}
@@ -175,7 +175,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
               {spec.map((f) => (
                 <div key={f.key} className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
                   <div className="min-w-0 flex-1">
-                    <p className="mono text-xs font-bold text-slate-200">{labelOf(f.key)}</p>
+                    <p className="mono text-xs font-medium text-slate-200">{labelOf(f.key)}</p>
                     <p className="text-xs text-slate-400">
                       Required: {OP_LABEL[Number(f.op) as Op]} {f.value.toString()}
                     </p>
@@ -202,7 +202,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl shadow-lg shadow-emerald-950/30">
             <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">
+              <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">
                 Dry-Run: Conforming
               </p>
               <p className="mt-1 text-sm text-slate-300 leading-relaxed">
@@ -254,7 +254,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
         <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl">
           <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">Presentation Honoured!</p>
+            <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">Presentation Honoured!</p>
             <p className="mt-1 text-sm text-slate-300">
               {amount} has been paid to the beneficiary.{" "}
               <Link className="underline text-emerald-400 font-semibold" href={`/credit/${idParam}`}>

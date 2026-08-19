@@ -1,125 +1,177 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils";
-import { LucideIcon, Plus } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { motion, useSpring, useTransform, useInView } from "motion/react";
+import { motion, useInView, useMotionValue, useSpring } from "motion/react";
+import { cn } from "@/lib/utils";
 
-type aboutusData = {
-  icon: LucideIcon;
+/// The instrument, stated as a lattice of counts.
+///
+/// Laid out as a ruled grid with most cells left empty, one struck out, and a
+/// single cell brought forward — the eye is meant to land on the figure that
+/// carries the product, which is the zero. Everything here can be checked by
+/// cloning the repo and running `forge test`; there are no users or volumes to
+/// report and none are implied.
+
+type Cell = {
+  index: string;
   title: string;
-  color: string;
-}[];
-
-type statisticsCounter = {
-  title: string;
-  count: number;
-}[];
-
-const AnimatedCounter = ({
-  value,
-  isInView,
-}: {
-  value: number;
-  isInView: boolean;
-}) => {
-  const springValue = useSpring(0, {
-    bounce: 0,
-    duration: 2000,
-  });
-
-  const displayValue = useTransform(springValue, (current) =>
-    Math.round(current)
-  );
-
-  useEffect(() => {
-    if (isInView) {
-      springValue.set(value);
-    }
-  }, [isInView, value, springValue]);
-
-  return <motion.span>{displayValue}</motion.span>;
+  value: string;
+  note?: string;
+  featured?: boolean;
+  hatched?: boolean;
+  empty?: boolean;
 };
 
-const AboutUs = ({
-  aboutusData,
-  statisticsCounter,
-}: {
-  aboutusData: aboutusData;
-  statisticsCounter: statisticsCounter;
-}) => {
-  const statsRef = useRef(null);
-  const isInView = useInView(statsRef, { once: true, margin: "-100px" });
+const CELLS: Cell[] = [
+  { index: "", title: "", value: "", empty: true },
+  { index: "01", title: "Lines of\ncontract", value: "470" },
+  { index: "02", title: "Conditions\nper credit", value: "16", note: "maximum" },
+  { index: "", title: "", value: "", empty: true },
+
+  { index: "03", title: "Tests,\nall passing", value: "47" },
+  { index: "04", title: "Fuzz runs on\nthe invariant", value: "1024", hatched: true },
+  {
+    index: "05",
+    title: "Administrative\nfunctions",
+    value: "0",
+    note: "no owner · no pause · no upgrade",
+    featured: true,
+  },
+  { index: "06", title: "Ways value\ncan leave", value: "2" },
+
+  { index: "", title: "", value: "", empty: true },
+  { index: "07", title: "Decimals,\nnever rescaled", value: "6", hatched: true },
+  { index: "08", title: "Backends in\nthe honour path", value: "0" },
+  { index: "", title: "", value: "", empty: true },
+];
+
+function Counter({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const numeric = Number(value);
+  const mv = useMotionValue(0);
+  const spring = useSpring(mv, { damping: 40, stiffness: 90 });
+
+  useEffect(() => {
+    if (inView) mv.set(numeric);
+  }, [inView, numeric, mv]);
+
+  useEffect(
+    () =>
+      spring.on("change", (latest) => {
+        if (ref.current) ref.current.textContent = String(Math.round(latest));
+      }),
+    [spring],
+  );
+
+  return <span ref={ref}>0</span>;
+}
+
+function GridCell({ cell }: { cell: Cell }) {
+  if (cell.empty) {
+    return <div className="border-r border-b border-white/[0.06] min-h-[9rem]" />;
+  }
 
   return (
-    <section id="performance" className="py-16 md:py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center gap-8 md:gap-16">
+    <div
+      className={cn(
+        "relative border-r border-b border-white/[0.06] min-h-[9rem] p-5 sm:p-6 flex flex-col justify-between",
+        cell.hatched &&
+          "bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.03)_0px,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_7px)]",
+        cell.featured && "z-10",
+      )}
+    >
+      {cell.featured ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 border-2 border-emerald-500/70 bg-emerald-500/[0.04]"
+        />
+      ) : null}
+
+      <div className="relative">
+        <span className="font-mono text-[10px] tracking-widest text-muted-foreground/60">
+          {cell.index}
+        </span>
+        <p
+          className={cn(
+            "mt-3 whitespace-pre-line text-lg leading-tight tracking-tight sm:text-xl",
+            cell.featured ? "text-white" : "text-foreground/85",
+          )}
+        >
+          {cell.title}
+        </p>
+      </div>
+
+      <div className="relative mt-6">
+        <span
+          className={cn(
+            "block text-4xl font-medium tabular-nums sm:text-5xl",
+            cell.featured ? "text-emerald-400" : "text-muted-foreground/45",
+          )}
+        >
+          <Counter value={cell.value} />
+        </span>
+        {cell.note ? (
+          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
+            {cell.note}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+const AboutUs = () => {
+  return (
+    <section id="performance" className="relative overflow-hidden">
+      {/* Faint contour wash, so the lattice sits on something rather than on flat black. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.55]"
+        style={{
+          backgroundImage:
+            "radial-gradient(60rem 30rem at 70% 20%, rgba(16,185,129,0.10), transparent), radial-gradient(40rem 24rem at 15% 80%, rgba(56,189,248,0.08), transparent)",
+        }}
+      />
+
+      <div className="py-16 md:py-20 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ y: -40, opacity: 0 }}
+            initial={{ y: -20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{
-              duration: 0.8,
-              ease: [0.21, 0.47, 0.32, 0.98],
-            }}
-            className="flex flex-col items-center justify-center gap-4"
+            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-foreground text-center tracking-tight">
-              A four-hundred-year-old instrument, rebuilt so that custody needs no
-              bank and the examination needs no clerk. Built to be
-            </h2>
-            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4">
-              {aboutusData.map((item, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "flex items-center gap-3 px-6 py-2 rounded-full",
-                    item.color
-                  )}
-                >
-                  <item.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
-                  <span
-                    className={cn(
-                      "text-4xl font-normal font-serif italic"
-                    )}
-                  >
-                    {item.title}
-                  </span>
-                </div>
-              ))}
+            <div className="flex items-center gap-3">
+              <span className="h-px w-10 bg-emerald-500/60" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+                The instrument
+              </span>
+              <span className="h-px w-10 bg-emerald-500/60" />
             </div>
+            <h2 className="text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
+              Four hundred years old, rebuilt so custody needs no bank and the
+              examination needs{" "}
+              <span className="font-serif italic tracking-tight">no clerk</span>
+            </h2>
+            <p className="text-base font-normal text-muted-foreground">
+              Every figure below is checkable. Clone the repository and run the
+              suite — there is nothing here you have to take on trust.
+            </p>
           </motion.div>
-          <div
-            ref={statsRef}
-            className="w-full grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-0"
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="mt-14 grid grid-cols-2 border-l border-t border-white/[0.06] md:grid-cols-4"
           >
-            {statisticsCounter?.map((value, index) => {
-              return (
-                <div
-                  key={index}
-                  className="relative px-6 py-5 sm:py-10 gap-3 flex flex-col items-center justify-center"
-                >
-                  {index !== 0 && (
-                    <div className="hidden sm:block absolute left-0 top-1/2 -translate-y-1/2 w-px h-40 bg-border" />
-                  )}
-                  <div className="flex gap-0 sm:gap-2 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-medium">
-                    <Plus
-                      strokeWidth={3.5}
-                      className="w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12"
-                    />
-                    <AnimatedCounter
-                      value={value.count}
-                      isInView={isInView}
-                    />
-                  </div>
-                  <p className="text-base font-normal text-muted-foreground text-center">
-                    {value.title}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+            {CELLS.map((cell, i) => (
+              <GridCell key={i} cell={cell} />
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

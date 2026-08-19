@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowUpRight, FileCheck2, Lock, Scale, ShieldCheck } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { LockKey, Scales, SealCheck, FileText } from "@phosphor-icons/react/dist/ssr";
 
 export type AvatarList = {
   image: string;
@@ -16,7 +17,12 @@ function HeroSection({ avatarList }: HeroSectionProps) {
   return (
     <section id="hero" className="min-h-[80vh] flex flex-col justify-center">
       <div className="w-full h-full relative">
-        <div className="relative w-full pt-0 md:pt-20 pb-6 md:pb-10 before:absolute before:w-full before:h-full before:bg-linear-to-r before:from-sky-100 before:via-white before:to-amber-100 before:rounded-full before:top-24 before:blur-3xl before:-z-10 dark:before:from-slate-800 dark:before:via-black dark:before:to-stone-700 dark:before:rounded-full dark:before:blur-3xl dark:before:-z-10">
+        <div className="relative w-full pt-0 md:pt-20 pb-6 md:pb-10">
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute left-1/2 top-10 h-[34rem] w-[68rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(16,185,129,0.20),transparent)] blur-3xl" />
+            <div className="absolute left-[12%] top-40 h-[26rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(56,189,248,0.16),transparent)] blur-3xl" />
+            <div className="absolute right-[10%] top-24 h-[24rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,rgba(245,158,11,0.10),transparent)] blur-3xl" />
+          </div>
           <div className="container mx-auto relative z-10">
             <div className="flex flex-col max-w-5xl mx-auto gap-8">
               <div className="relative flex flex-col text-center items-center sm:gap-6 gap-4">
@@ -62,10 +68,10 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                 </Link>
                 <div className="flex items-center sm:gap-7 gap-3">
                   <ul className="avatar flex flex-row items-center" aria-label="What the contract guarantees">
-                    {[ShieldCheck, Lock, FileCheck2, Scale].map((Icon, index) => (
+                    {[SealCheck, LockKey, FileText, Scales].map((Icon, index) => (
                       <li key={index} className="-mr-2 z-1">
                         <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-background bg-secondary text-foreground">
-                          <Icon size={16} />
+                          <Icon size={18} weight="duotone" />
                         </span>
                       </li>
                     ))}

@@ -44,9 +44,7 @@ const Footer = () => {
           <div className="py-12 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-12 gap-x-8 gap-y-10 px-6 xl:px-0">
             <div className="col-span-full lg:col-span-4">
               <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-100 ease-in-out fill-mode-both">
-                <a href="#" className="text-xl font-semibold tracking-tight">
-                  lading.
-                </a>
+                <a href="/" className="flex items-center" aria-label="Lading"><img src="/Lading.png" alt="Lading" className="h-8 w-auto" /></a>
                 <p className="text-base font-normal text-muted-foreground">
                   A documentary credit that settles itself. Funded on open, paid on conforming documents, refunded at expiry — with no administrator anywhere in the contract.
                 </p>
@@ -101,10 +99,10 @@ const Footer = () => {
                 <ul className="flex flex-col gap-3">
                   <li>
                     <a
-                      href="mailto:hello@lading.app"
+                      href="mailto:jadonamite@gmail.com"
                       className="text-base font-normal text-muted-foreground hover:text-foreground"
                     >
-                      hello@lading.app
+                      jadonamite@gmail.com
                     </a>
                   </li>
                   <li>

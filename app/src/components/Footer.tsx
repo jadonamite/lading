@@ -35,7 +35,7 @@ export function Footer() {
           {/* Links Grid */}
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
             <div className="space-y-3">
-              <h4 className="label text-slate-400 font-bold">Product</h4>
+              <h4 className="label text-slate-400 font-medium">Product</h4>
               <ul className="space-y-2">
                 <li>
                   <Link href="/open" className="hover:text-emerald-400 transition-colors">
@@ -56,7 +56,7 @@ export function Footer() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="label text-slate-400 font-bold">Protocol</h4>
+              <h4 className="label text-slate-400 font-medium">Protocol</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/#specs" className="hover:text-emerald-400 transition-colors">
@@ -83,7 +83,7 @@ export function Footer() {
             </div>
 
             <div className="col-span-2 sm:col-span-1 space-y-3">
-              <h4 className="label text-slate-400 font-bold">Verification</h4>
+              <h4 className="label text-slate-400 font-medium">Verification</h4>
               <div className="space-y-2.5 text-xs">
                 <div className="p-3 rounded-xl border border-slate-800 bg-slate-900/60">
                   <div className="text-slate-400 mb-1">Contract Address</div>

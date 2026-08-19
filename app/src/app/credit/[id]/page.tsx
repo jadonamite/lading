@@ -69,7 +69,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
             <p className="mono text-xs font-semibold uppercase tracking-wider text-emerald-400">
               Documentary Credit #{idParam}
             </p>
-            <h1 className="mono mt-1 text-4xl font-extrabold tracking-tight text-white">{amount}</h1>
+            <h1 className="mono mt-1 text-4xl font-medium tracking-tight text-white">{amount}</h1>
           </div>
           <div className="flex items-center gap-2">
             {state === State.Honoured ? (
@@ -89,7 +89,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
         <div className="flex items-start gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-6 backdrop-blur-xl shadow-lg shadow-emerald-950/30">
           <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-xl font-bold uppercase tracking-tight text-emerald-400">
+            <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">
               Honoured — Funds Transferred
             </p>
             <p className="mt-1 text-sm text-slate-300 leading-relaxed">
@@ -103,7 +103,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
         <div className="flex items-start gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
           <RotateCcw className="h-8 w-8 text-slate-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-xl font-bold tracking-tight text-slate-200">Refunded to Applicant</p>
+            <p className="text-xl font-medium tracking-tight text-slate-200">Refunded to Applicant</p>
             <p className="mt-1 text-sm text-slate-400 leading-relaxed">
               The credit lapsed past its expiry timestamp without receiving a conforming presentation. Escrow funds of <strong className="text-slate-200">{amount}</strong> were automatically returned to applicant <span className="mono text-slate-300">{shortAddr(credit.applicant)}</span>.
             </p>
@@ -115,7 +115,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
         <Card>
           <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
             <Sparkles className="h-4 w-4 text-emerald-400" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Escrow Terms</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Escrow Terms</h2>
           </div>
           <Row k="state">{STATE_LABEL[state]}</Row>
           <Row k="applicant">
@@ -154,7 +154,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
         <Card>
           <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
             <FileCheck className="h-4 w-4 text-emerald-400" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Mechanical Conditions</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Mechanical Conditions</h2>
           </div>
           {!spec || spec.length === 0 ? (
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -167,7 +167,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
                   <span className="mono text-xs font-semibold text-slate-300">{labelOf(f.key)}</span>
                   <span className="text-xs text-slate-400">
                     {OP_LABEL[Number(f.op) as Op]}{" "}
-                    <span className="mono font-bold text-emerald-400">{f.value.toString()}</span>
+                    <span className="mono font-medium text-emerald-400">{f.value.toString()}</span>
                   </span>
                 </li>
               ))}
@@ -178,7 +178,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
 
       {state === State.Open ? (
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Available Actions</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Available Actions</h2>
 
           <div className="flex flex-wrap items-center gap-3">
             {!expired ? (
@@ -236,7 +236,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       <Card>
         <div className="flex items-center gap-2 mb-2">
           <ShieldAlert className="h-4 w-4 text-rose-400" />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">Notices of Refusal (UCP 600 Art. 16)</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Notices of Refusal (UCP 600 Art. 16)</h2>
         </div>
         <p className="mb-4 text-xs text-slate-400">
           Every presentation attempt is recorded on-chain with exact discrepancy reasons. Under UCP 600, bank refusals must state every failed condition.

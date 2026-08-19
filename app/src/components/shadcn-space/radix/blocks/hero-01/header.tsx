@@ -79,8 +79,8 @@ const Header = ({ navigationData, className }: HeaderProps) => {
       >
         {/* Logo */}
         <div>
-          <a href="#" className="text-xl font-semibold tracking-tight">
-            lading.
+          <a href="/" className="flex items-center" aria-label="Lading">
+            <img src="/Lading.png" alt="Lading" className="h-7 w-auto" />
           </a>
         </div>
 
@@ -124,8 +124,8 @@ const Header = ({ navigationData, className }: HeaderProps) => {
                 className="w-full sm:w-96 p-0 border-l-0"
               >
                 <div className="flex items-center justify-between p-6">
-                  <a href="#" className="text-xl font-semibold tracking-tight">
-                    lading.
+                  <a href="/" className="flex items-center" aria-label="Lading">
+                    <img src="/Lading.png" alt="Lading" className="h-7 w-auto" />
                   </a>
                   <SheetClose id="mobile-menu-close">
                     <span className="rounded-full border border-border p-2.5 block">

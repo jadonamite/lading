@@ -118,23 +118,32 @@ export default function OpenCredit() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-8">
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-2"
+          className="mb-4 inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-emerald-400"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          <span>Back to explorer</span>
+          <span>Back</span>
         </Link>
-        <div className="flex items-center gap-2">
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">Open a Credit</h1>
-          <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
-            Escrow Creation
+        <div className="flex items-center gap-3">
+          <span className="h-px w-10 bg-emerald-500/60" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+            Issue an irrevocable credit
           </span>
         </div>
-        <p className="mt-2 text-sm text-slate-400 leading-relaxed">
-          You fund it now. From the moment this transaction confirms, funds are unreachable — by the beneficiary until they present conforming documents, and <strong className="text-slate-200">by you</strong> until expiry. There is zero administrator release button.
+        <h1 className="mt-4 text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl">
+          State the terms once.{" "}
+          <span className="font-serif italic tracking-tight text-emerald-300">
+            Then nobody can move them.
+          </span>
+        </h1>
+        <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+          You fund it now. From the moment this transaction confirms the money is
+          unreachable — by the beneficiary until they present conforming documents,
+          and <strong className="text-foreground">by you</strong> until expiry.
+          That is the undertaking, and there is no button anywhere that undoes it.
         </p>
       </div>
 
@@ -202,7 +211,7 @@ export default function OpenCredit() {
             />
             {docHash ? (
               <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center w-full max-w-md">
-                <p className="text-xs font-bold text-emerald-400">{docName}</p>
+                <p className="text-xs font-medium text-emerald-400">{docName}</p>
                 <p className="mono text-[11px] text-slate-300 truncate">{docHash}</p>
               </div>
             ) : null}

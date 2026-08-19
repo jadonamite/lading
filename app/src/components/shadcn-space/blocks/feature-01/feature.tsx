@@ -1,10 +1,11 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { LucideIcon, Scale } from "lucide-react";
+import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
+import { Scales } from "@phosphor-icons/react/dist/ssr";
 import { motion } from "motion/react";
 
 type Features = {
-  icon: LucideIcon;
+  icon: PhosphorIcon;
   content: string;
 }[];
 
@@ -44,13 +45,13 @@ const Feature = ({ featureData }: { featureData: Features }) => {
                   duration: 0.8,
                   ease: [0.21, 0.47, 0.32, 0.98],
                 }}
-                className="p-6 sm:p-16 rounded-2xl h-full w-full bg-gradient-to-br from-emerald-900/40 via-slate-900 to-teal-950/60"
+                className="p-6 sm:p-16 rounded-2xl h-full w-full bg-[url('/instrument.svg')] bg-cover bg-center bg-no-repeat"
               >
                 <Card className="flex items-start gap-12 has-data-[slot=card-footer]:pb-6! sm:has-data-[slot=card-footer]:pb-10! pt-6 sm:py-10 border-none shadow-none ring-0 rounded-lg">
                   <CardContent className="flex flex-col gap-6 px-6 sm:px-8">
                     <Avatar className="size-12">
                       <AvatarFallback className="bg-emerald-500/15 text-emerald-300">
-                        <Scale className="h-5 w-5" />
+                        <Scales size={22} weight="duotone" />
                       </AvatarFallback>
                     </Avatar>
                     <h3 className="text-xl sm:text-2xl font-medium">
@@ -84,8 +85,9 @@ const Feature = ({ featureData }: { featureData: Features }) => {
                       <Card className="py-8 bg-muted ring-0 border-0 h-full">
                         <CardContent className="w-full h-full px-8 flex flex-col items-start gap-12 justify-between">
                           <value.icon
-                            className="w-6 h-6 text-muted-foreground"
-                            strokeWidth={1.5}
+                            size={28}
+                            weight="duotone"
+                            className="text-emerald-400/80"
                           />
                           <p className="text-base text-primary font-normal">
                             {value?.content}

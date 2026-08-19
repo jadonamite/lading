@@ -33,18 +33,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl transition-all">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
         {/* Brand Logo & Tagline */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative h-8 w-28 sm:h-9 sm:w-32 flex items-center">
-            <Image
-              src="/Lading.png"
-              alt="Lading Logo"
-              width={140}
-              height={45}
-              priority
-              className="h-full w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-            />
-          </div>
-        </Link>
+        <Link href="/" className="flex items-center" aria-label="Lading"><img src="/Lading.png" alt="Lading" className="h-7 w-auto" /></Link>
 
         {/* Navigation Links */}
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-300 md:flex">
