@@ -70,7 +70,7 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/jadonamite/lading"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1 hover:text-emerald-400 transition-colors"

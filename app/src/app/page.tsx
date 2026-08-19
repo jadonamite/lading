@@ -8,6 +8,8 @@ import { assetOf } from "@/lib/assets";
 import { fromBaseUnits } from "@/lib/units";
 import { asDate, countdown, isExpired, shortAddr } from "@/lib/lading";
 import { Badge, Button, Card, Empty, Ext } from "@/components/ui";
+import { motion } from "motion/react";
+import { FactRail, Rise, SectionHead } from "@/components/Landing";
 import {
   ShieldCheck,
   Zap,
@@ -57,40 +59,66 @@ export default function Home() {
   }, [rows, filterTab, searchQuery]);
 
   return (
-    <div className="space-y-24 py-4">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden pt-6 pb-4">
-        {/* Glow backdrop decor */}
-        <div className="absolute -top-24 left-1/2 -z-10 h-96 w-[600px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-
+    <div className="space-y-28 py-4">
+      {/* 1. HERO — Splyt's shape: oversized sans headline broken by one
+          serif-italic phrase, sitting in a soft bloom, entering on a staggered
+          fade. The accent phrase carries the whole idea, so it is the line set
+          apart rather than a decorative fragment. */}
+      <section className="hero-bloom relative flex min-h-[80vh] flex-col justify-center overflow-hidden pt-4 pb-8">
         <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400 backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Documentary Credit Protocol · UCP 600 Standard</span>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-md">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Documentary credit · UCP 600</span>
+            </div>
+          </motion.div>
 
-          <h1 className="mt-6 max-w-4xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl sm:leading-tight">
-            Trade Settlement by Smart Contract.{" "}
-            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-              Zero Bank, Zero Discretion.
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.05, ease: "easeInOut" }}
+            className="mt-7 max-w-5xl text-5xl font-medium leading-[1.05] tracking-tight text-white md:text-7xl md:leading-[1.05] lg:text-8xl lg:leading-[1.02]"
+          >
+            The bank never verified the goods.
+            <br />
+            It verified{" "}
+            <span className="accent-serif text-emerald-300">
+              paperwork against a spec.
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-6 max-w-2xl text-base text-slate-300 sm:text-lg leading-relaxed">
-            The bank never verified the goods — it verified paperwork against a specification.
-            Lading executes that mechanical check directly on BOT Chain. Open a credit, pay instantly on conforming presentation, or receive an automated refund at expiry.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1, ease: "easeInOut" }}
+            className="mt-7 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
+          >
+            That check is mechanical, which is why it belongs in a contract. What
+            needed the bank was custody — and custody is the one thing a settlement
+            layer provides for free. Fund a credit, and the beneficiary is paid the
+            instant conforming documents are presented. If they never are, you are
+            refunded at expiry.
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.15, ease: "easeInOut" }}
+            className="mt-9 flex flex-wrap items-center justify-center gap-4"
+          >
             <Link href="/open">
               <Button size="lg" className="shadow-emerald-500/25">
-                Open a Credit
+                Open a credit
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link href="/about">
               <Button variant="ghost" size="lg">
-                How it Works
+                How it works
               </Button>
             </Link>
             {deployed ? (
@@ -98,66 +126,66 @@ export default function Home() {
                 href={addrUrl(LADING_ADDRESS)}
                 target="_blank"
                 rel="noreferrer"
-                className="hidden sm:inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-5 py-3 text-sm font-semibold text-slate-300 hover:border-slate-700 hover:text-white transition-all"
+                className="hidden items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-5 py-3 text-sm font-semibold text-slate-300 transition-all hover:border-slate-700 hover:text-white sm:inline-flex"
               >
                 <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                <span>Verified Contract</span>
+                <span>Read the contract</span>
               </a>
             ) : null}
-          </div>
+          </motion.div>
 
-          {/* Stat Counters Banner */}
-          <div className="mt-16 grid w-full grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6">
-            <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 backdrop-blur-xl">
-              <div className="text-3xl font-extrabold text-white">0</div>
-              <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Admin Intervention
+          {/* The claim, stated as four numbers. Each one is checkable: the first
+              three by reading the verified source, the fourth by running the
+              suite. No user counts, no volume, because there are none. */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeInOut" }}
+            className="mt-16 grid w-full grid-cols-2 gap-4 sm:grid-cols-4 lg:gap-6"
+          >
+            {[
+              { n: "0", label: "Administrators", sub: "no owner, no pause, no upgrade", tone: "text-white" },
+              { n: "2", label: "Ways out", sub: "honour, or refund at expiry", tone: "text-emerald-400" },
+              { n: "6", label: "Decimals, never rescaled", sub: "the chain's real USDT", tone: "text-teal-300" },
+              { n: "47", label: "Tests, all green", sub: "incl. a 1,024-run fuzz", tone: "text-cyan-300" },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 text-left backdrop-blur-xl"
+              >
+                <div className={`text-3xl font-medium ${s.tone}`}>{s.n}</div>
+                <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  {s.label}
+                </div>
+                <div className="mt-1 text-[11px] leading-snug text-slate-500">{s.sub}</div>
               </div>
-              <div className="mt-1 text-[11px] text-slate-500">No owner, no pause, no upgrade</div>
-            </div>
-            <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 backdrop-blur-xl">
-              <div className="text-3xl font-extrabold text-emerald-400">400 Yrs</div>
-              <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Legal Precedent
-              </div>
-              <div className="mt-1 text-[11px] text-slate-500">UCP 600 rules engine</div>
-            </div>
-            <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 backdrop-blur-xl">
-              <div className="text-3xl font-extrabold text-teal-400">100%</div>
-              <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Mechanical Check
-              </div>
-              <div className="mt-1 text-[11px] text-slate-500">Atomic payout on match</div>
-            </div>
-            <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-5 backdrop-blur-xl">
-              <div className="text-3xl font-extrabold text-cyan-400">47 / 47</div>
-              <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Verified Tests
-              </div>
-              <div className="mt-1 text-[11px] text-slate-500">Formally fuzzed suite</div>
-            </div>
-          </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
+      {/* The rail Splyt gives to partner logos. We have no partners, so it
+          carries facts that can each be checked instead. */}
+      <FactRail />
+
       {/* 2. FEATURE HIGHLIGHTS GRID */}
       <section id="features" className="space-y-6">
-        <div className="text-center space-y-2">
+        <Rise><div className="text-center space-y-2">
           <p className="label text-emerald-400">Protocol Features</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white sm:leading-[1.1]">
             Why Trade Settlement Belongs on Chain
           </h2>
           <p className="text-sm text-slate-400 max-w-xl mx-auto">
             Traditional letters of credit charge high bank fees and add human delay. Lading provides instant, non-custodial execution.
           </p>
-        </div>
+        </div></Rise>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="glass-card-hover space-y-3">
             <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
               <Lock className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-bold text-white">Zero-Admin Custody</h3>
+            <h3 className="text-lg font-medium text-white">Zero-Admin Custody</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
               No owner, no release button, and no pause functionality. Locked funds leave the contract through exactly two paths: an honoured presentation or an post-expiry refund.
             </p>
@@ -167,7 +195,7 @@ export default function Home() {
             <div className="h-10 w-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
               <Scale className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-bold text-white">UCP 600 Discrepancy Engine</h3>
+            <h3 className="text-lg font-medium text-white">UCP 600 Discrepancy Engine</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
               Under ICC Article 16, a refused presentation does not revert. It records a permanent notice naming the failed condition and bound, leaving funds untouched for re-presentation.
             </p>
@@ -177,7 +205,7 @@ export default function Home() {
             <div className="h-10 w-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
               <Layers className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-bold text-white">Bilateral Term Amendments</h3>
+            <h3 className="text-lg font-medium text-white">Bilateral Term Amendments</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
               Under ICC Article 10, nobody amends a credit alone. Your signature does nothing until the counterparty signs identical terms — instantly applying the amendment.
             </p>
@@ -187,7 +215,7 @@ export default function Home() {
             <div className="h-10 w-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
               <Zap className="h-5 w-5" />
             </div>
-            <h3 className="text-lg font-bold text-white">Free Off-Chain Dry-Runs</h3>
+            <h3 className="text-lg font-medium text-white">Free Off-Chain Dry-Runs</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
               Presenters can dry-run <span className="mono text-xs text-amber-400">conforms()</span> off-chain for free. Verify document hashes and condition bounds before spending gas on a live presentation.
             </p>
@@ -197,15 +225,15 @@ export default function Home() {
 
       {/* 3. HOW IT WORKS TIMELINE */}
       <section className="space-y-8">
-        <div className="text-center space-y-2">
+        <Rise><div className="text-center space-y-2">
           <p className="label text-emerald-400">Workflow</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white sm:leading-[1.1]">
             The 5-Step Settlement Cycle
           </h2>
           <p className="text-sm text-slate-400 max-w-xl mx-auto">
             From initial collateral funding to atomic settlement or post-expiry refund.
           </p>
-        </div>
+        </div></Rise>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {[
@@ -251,7 +279,7 @@ export default function Home() {
                     <span className="mono text-xs font-bold text-emerald-400">STEP {s.step}</span>
                     <IconComp className="h-5 w-5 group-hover:text-emerald-400 transition-colors" />
                   </div>
-                  <h4 className="mt-3 font-bold text-white text-base">{s.title}</h4>
+                  <h4 className="mt-3 font-medium text-white text-base">{s.title}</h4>
                   <p className="mt-2 text-xs text-slate-400 leading-relaxed">{s.desc}</p>
                 </div>
               </div>
@@ -265,7 +293,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-bold tracking-tight text-white">Live Credits Explorer</h2>
+              <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">Live Credits Explorer</h2>
               <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
                 On-Chain Logs
               </span>
@@ -332,7 +360,7 @@ export default function Home() {
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2">
                         <span className="mono text-xs font-bold text-slate-400">#{r.id.toString()}</span>
-                        <span className="mono text-xl font-extrabold text-white group-hover:text-emerald-400 transition-colors">
+                        <span className="mono text-xl font-medium text-white group-hover:text-emerald-400 transition-colors">
                           {fromBaseUnits(r.faceAmount, asset.decimals)} {asset.symbol}
                         </span>
                       </div>
@@ -377,7 +405,7 @@ export default function Home() {
                 <Cpu className="h-3.5 w-3.5" />
                 <span>Technical Specifications & Verification</span>
               </div>
-              <h3 className="text-2xl font-bold text-white">Immutable Contract Architecture</h3>
+              <h3 className="text-3xl sm:text-4xl font-medium tracking-tight text-white">Immutable Contract Architecture</h3>
               <p className="text-sm text-slate-300 leading-relaxed">
                 Lading is constructed with strict zero-admin invariants. There are no fallback functions, no upgrade proxies, no multisig backdoors, and no administrative pause keys.
               </p>
@@ -427,12 +455,12 @@ export default function Home() {
 
       {/* 6. INTERACTIVE FAQ ACCORDION */}
       <section id="faq" className="space-y-6 max-w-3xl mx-auto">
-        <div className="text-center space-y-2">
+        <Rise><div className="text-center space-y-2">
           <p className="label text-emerald-400">Frequently Asked Questions</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-            Everything You Need to Know
+          <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-white sm:leading-[1.1]">
+            Everything you need to know
           </h2>
-        </div>
+        </div></Rise>
 
         <div className="space-y-3">
           {[
@@ -465,7 +493,7 @@ export default function Home() {
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="flex w-full items-center justify-between px-6 py-4 text-left font-bold text-slate-100 hover:text-emerald-400 transition-colors"
+                  className="flex w-full items-center justify-between px-6 py-4 text-left font-medium text-slate-100 hover:text-emerald-400 transition-colors"
                 >
                   <span className="text-base">{item.q}</span>
                   {isOpen ? (
