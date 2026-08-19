@@ -30,13 +30,13 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl transition-all">
+    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-background/60 backdrop-blur-xl transition-all">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
         {/* Brand Logo & Tagline */}
         <Link href="/" className="flex items-center" aria-label="Lading"><img src="/Lading.png" alt="Lading" className="h-7 w-auto" /></Link>
 
         {/* Navigation Links */}
-        <nav className="hidden items-center gap-6 text-sm font-medium text-slate-300 md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-foreground/80 md:flex">
           <Link href="/" className="hover:text-emerald-400 transition-colors">
             Home
           </Link>
@@ -57,20 +57,20 @@ export function Header() {
         {/* Action Controls & Wallet Connection */}
         <div className="flex items-center gap-3">
           {LADING_ADDRESS !== "0x0000000000000000000000000000000000000000" ? (
-            <div className="hidden items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs lg:flex">
+            <div className="hidden items-center gap-1.5 rounded-xl border border-white/[0.08] bg-muted/50 px-3 py-1.5 text-xs lg:flex">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
               <a
                 href={addrUrl(LADING_ADDRESS)}
                 target="_blank"
                 rel="noreferrer"
-                className="mono font-medium text-slate-300 hover:text-emerald-400 transition-colors"
+                className="mono font-medium text-foreground/80 hover:text-emerald-400 transition-colors"
                 title="View verified contract on BOT Chain Explorer"
               >
                 {shortAddr(LADING_ADDRESS)}
               </a>
               <button
                 onClick={handleCopyContract}
-                className="ml-1 text-slate-500 hover:text-slate-200 transition-colors"
+                className="ml-1 text-muted-foreground/70 hover:text-foreground transition-colors"
                 title="Copy contract address"
               >
                 {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -90,7 +90,7 @@ export function Header() {
               </span>
               <button
                 onClick={() => disconnect()}
-                className="mono flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-800 hover:border-slate-700 transition-all"
+                className="mono flex items-center gap-2 rounded-xl border border-white/[0.08] bg-muted px-3.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary hover:border-white/[0.10] transition-all"
                 title="Click to disconnect wallet"
               >
                 <Wallet className="h-3.5 w-3.5 text-emerald-400" />
@@ -111,7 +111,7 @@ export function Header() {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-slate-400 hover:text-white"
+            className="md:hidden p-2 text-muted-foreground hover:text-emerald-300"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -120,8 +120,8 @@ export function Header() {
 
       {/* Mobile navigation panel */}
       {mobileMenuOpen ? (
-        <div className="border-t border-slate-800/80 bg-slate-950/95 px-5 py-4 md:hidden">
-          <nav className="flex flex-col gap-3 text-sm font-medium text-slate-300">
+        <div className="border-t border-white/[0.06] bg-background/95 px-5 py-4 md:hidden">
+          <nav className="flex flex-col gap-3 text-sm font-medium text-foreground/80">
             <Link href="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-emerald-400 py-1">
               Home
             </Link>

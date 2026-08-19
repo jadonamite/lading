@@ -104,13 +104,13 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
       <div>
         <Link
           href={`/credit/${idParam}`}
-          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-2"
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-400 transition-colors mb-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to Credit #{idParam}</span>
         </Link>
         <h1 className="text-3xl font-medium tracking-tight text-white">Present Documents</h1>
-        <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
           Conforming documents unlock <strong className="text-emerald-400">{amount}</strong> in the exact transaction that presents them. Zero manual review delay.
         </p>
       </div>
@@ -132,7 +132,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           <ShieldAlert className="h-6 w-6 shrink-0 text-amber-400" />
           <div>
             <p className="font-medium text-sm">Not a Nominated Presenter</p>
-            <p className="text-xs text-slate-300 mt-0.5">
+            <p className="text-xs text-foreground/80 mt-0.5">
               Only addresses nominated by applicant may present against this credit. Perfect documents from unauthorized addresses will be refused.
             </p>
           </div>
@@ -144,9 +144,9 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           label="Document File"
           hint="Hashed locally in browser and evaluated against the required hash. File content is never stored or uploaded."
         >
-          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950/60 p-6 text-center transition-colors hover:border-emerald-500/50">
+          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-background/50 p-6 text-center transition-colors hover:border-emerald-500/50">
             <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
-            <p className="text-xs font-semibold text-slate-300">
+            <p className="text-xs font-semibold text-foreground/80">
               Select or drop presented document to compute SHA-256
             </p>
             <input
@@ -162,7 +162,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
             {docHash ? (
               <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center w-full max-w-md">
                 <p className="text-xs font-medium text-emerald-400">{docName}</p>
-                <p className="mono text-[11px] text-slate-300 truncate">{docHash}</p>
+                <p className="mono text-[11px] text-foreground/80 truncate">{docHash}</p>
               </div>
             ) : null}
           </div>
@@ -170,13 +170,13 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
 
         {spec && spec.length > 0 ? (
           <div>
-            <span className="label text-slate-400 font-semibold">Stated Condition Values</span>
+            <span className="label text-muted-foreground font-semibold">Stated Condition Values</span>
             <div className="mt-3 space-y-3">
               {spec.map((f) => (
-                <div key={f.key} className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
+                <div key={f.key} className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-background/50 p-3">
                   <div className="min-w-0 flex-1">
-                    <p className="mono text-xs font-medium text-slate-200">{labelOf(f.key)}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="mono text-xs font-medium text-foreground">{labelOf(f.key)}</p>
+                    <p className="text-xs text-muted-foreground">
                       Required: {OP_LABEL[Number(f.op) as Op]} {f.value.toString()}
                     </p>
                   </div>
@@ -205,7 +205,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
               <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">
                 Dry-Run: Conforming
               </p>
-              <p className="mt-1 text-sm text-slate-300 leading-relaxed">
+              <p className="mt-1 text-sm text-foreground/80 leading-relaxed">
                 Submitting this presentation will immediately disburse <strong className="text-white">{amount}</strong> to the beneficiary. Zero discrepancies detected.
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           </div>
         )
       ) : (
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-muted-foreground">
           Attach a document file above to execute a zero-gas, instant dry-run conformance check.
         </p>
       )}
@@ -243,7 +243,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           <span>{isPending ? "Confirm in Wallet…" : mining ? "Submitting Presentation…" : "Submit Presentation"}</span>
         </Button>
         {!conforming && docHash && finding ? (
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-muted-foreground">
             You may still submit on-chain — non-conformance will be recorded as formal refusal.
           </span>
         ) : null}
@@ -255,7 +255,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
           <CheckCircle2 className="h-8 w-8 text-emerald-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">Presentation Honoured!</p>
-            <p className="mt-1 text-sm text-slate-300">
+            <p className="mt-1 text-sm text-foreground/80">
               {amount} has been paid to the beneficiary.{" "}
               <Link className="underline text-emerald-400 font-semibold" href={`/credit/${idParam}`}>
                 View Updated Credit
@@ -267,7 +267,7 @@ export default function PresentPage({ params }: { params: Promise<{ id: string }
         <div className="space-y-3">
           <p className="label !text-rose-400">On-Chain Refusal Recorded</p>
           {finding ? <RefusalPanel finding={finding} /> : null}
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             The credit remains open. Correct the document discrepancy and present again, or{" "}
             <Link className="underline text-emerald-400 font-semibold" href={`/credit/${idParam}/amend`}>
               request a term amendment

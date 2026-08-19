@@ -16,6 +16,7 @@ type Cell = {
   index: string;
   title: string;
   value: string;
+  prefix?: string;
   note?: string;
   featured?: boolean;
   hatched?: boolean;
@@ -24,24 +25,61 @@ type Cell = {
 
 const CELLS: Cell[] = [
   { index: "", title: "", value: "", empty: true },
-  { index: "01", title: "Lines of\ncontract", value: "470" },
-  { index: "02", title: "Conditions\nper credit", value: "16", note: "maximum" },
-  { index: "", title: "", value: "", empty: true },
-
-  { index: "03", title: "Tests,\nall passing", value: "47" },
-  { index: "04", title: "Fuzz runs on\nthe invariant", value: "1024", hatched: true },
   {
-    index: "05",
-    title: "Administrative\nfunctions",
+    index: "01",
+    title: "Days to get\npaid, at a bank",
+    value: "10",
+    note: "presentation to settlement",
+  },
+  {
+    index: "02",
+    title: "Days to get\npaid, here",
     value: "0",
-    note: "no owner · no pause · no upgrade",
+    note: "same transaction",
     featured: true,
   },
-  { index: "06", title: "Ways value\ncan leave", value: "2" },
+  { index: "", title: "", value: "", empty: true },
+
+  {
+    index: "03",
+    title: "Bank fee on a\n$100k credit",
+    value: "1500",
+    prefix: "$",
+    note: "at 1.5% of invoice",
+    hatched: true,
+  },
+  {
+    index: "04",
+    title: "Our fee on the\nsame credit",
+    value: "0",
+    note: "gas only, paid to the network",
+  },
+  {
+    index: "05",
+    title: "People who can\nfreeze your money",
+    value: "0",
+    note: "no owner · no pause · no upgrade",
+  },
+  {
+    index: "06",
+    title: "Paperwork you\nfile by hand",
+    value: "0",
+    hatched: true,
+  },
 
   { index: "", title: "", value: "", empty: true },
-  { index: "07", title: "Decimals,\nnever rescaled", value: "6", hatched: true },
-  { index: "08", title: "Backends in\nthe honour path", value: "0" },
+  {
+    index: "07",
+    title: "Conditions you\ncan set per credit",
+    value: "16",
+    note: "quantity, dates, ids",
+  },
+  {
+    index: "08",
+    title: "Minutes to open\na credit",
+    value: "2",
+    note: "connect, state terms, fund",
+  },
   { index: "", title: "", value: "", empty: true },
 ];
 
@@ -156,8 +194,9 @@ const AboutUs = () => {
               <span className="font-serif italic tracking-tight">no clerk</span>
             </h2>
             <p className="text-base font-normal text-muted-foreground">
-              Every figure below is checkable. Clone the repository and run the
-              suite — there is nothing here you have to take on trust.
+              What the instrument costs you, and what it costs at a bank. Fee and
+              settlement figures are typical commercial ranges for a documentary
+              credit; everything on our side of the table is what the contract does.
             </p>
           </motion.div>
 

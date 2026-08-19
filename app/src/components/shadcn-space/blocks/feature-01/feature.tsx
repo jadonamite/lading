@@ -82,13 +82,15 @@ const Feature = ({ featureData }: { featureData: Features }) => {
                         ease: [0.21, 0.47, 0.32, 0.98],
                       }}
                     >
-                      <Card className="py-8 bg-muted ring-0 border-0 h-full">
-                        <CardContent className="w-full h-full px-8 flex flex-col items-start gap-12 justify-between">
-                          <value.icon
-                            size={28}
-                            weight="duotone"
-                            className="text-emerald-400/80"
-                          />
+                      <Card className="relative overflow-hidden py-8 bg-muted ring-0 border-0 h-full">
+                        {/* The mark sits behind the words rather than above them —
+                            it should register as texture, not as a bullet point. */}
+                        <value.icon
+                          aria-hidden
+                          weight="duotone"
+                          className="pointer-events-none absolute -bottom-6 -right-5 h-40 w-40 text-emerald-400/[0.07]"
+                        />
+                        <CardContent className="relative w-full h-full px-8 flex flex-col items-start justify-end">
                           <p className="text-base text-primary font-normal">
                             {value?.content}
                           </p>

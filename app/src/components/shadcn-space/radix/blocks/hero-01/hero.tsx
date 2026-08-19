@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import { LockKey, Scales, SealCheck, FileText } from "@phosphor-icons/react/dist/ssr";
+
 
 export type AvatarList = {
   image: string;
@@ -32,9 +32,9 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   transition={{ duration: 1, ease: "easeInOut" }}
                   className="lg:text-8xl md:text-7xl text-5xl font-medium tracking-tight leading-14 md:leading-20 lg:leading-24"
                 >
-                  The bank never verified the goods. It verified{" "}
-                  <span className="font-serif italic tracking-tight"><br/>
-                    paperwork against a spec
+                  Get paid the moment your documents match, with{" "}
+                  <span className="font-serif italic tracking-tight text-emerald-300"><br/>
+                    no bank in the middle
                   </span>
                 </motion.h1>
                 <motion.p
@@ -43,10 +43,14 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   transition={{ duration: 1, delay: 0.1, ease: "easeInOut" }}
                   className="text-base font-normal max-w-2xl text-muted-foreground"
                 >
-                  That check is mechanical, which is why it belongs in a contract.
-                  Fund a credit and the beneficiary is paid the instant conforming
-                  documents are presented. If they never are, you are refunded at
-                  expiry. No bank, no release button, nobody&apos;s discretion.
+                  Lading is a letter of credit that settles itself. The buyer locks
+                  the money up front against terms you both agree; the moment you
+                  present documents that meet them, the full amount is
+                  <span className="text-emerald-300"> yours in the same transaction</span>.
+                  If you never do, the buyer is
+                  <span className="text-emerald-300"> refunded automatically</span> at
+                  expiry. No bank, no release button, nobody&apos;s discretion —
+                  including ours.
                 </motion.p>
               </div>
               <motion.div
@@ -57,29 +61,38 @@ function HeroSection({ avatarList }: HeroSectionProps) {
               >
                 <Link
                   href="/open"
-                  className="relative inline-flex items-center text-sm font-medium rounded-full h-12 p-1 ps-6 pe-14 group transition-all duration-500 hover:ps-14 hover:pe-6 w-fit overflow-hidden bg-primary text-primary-foreground hover:bg-primary/80"
+                  className="relative inline-flex items-center text-sm font-medium rounded-full h-12 p-1 ps-6 pe-14 group transition-all duration-500 hover:ps-14 hover:pe-6 w-fit overflow-hidden bg-primary text-primary-foreground hover:bg-emerald-400 hover:text-emerald-950 hover:shadow-[0_0_30px_-6px_rgba(16,185,129,0.7)]"
                 >
                   <span className="relative z-10 transition-all duration-500">
                     Open a credit
                   </span>
-                  <span className="absolute right-1 w-10 h-10 bg-background text-foreground rounded-full flex items-center justify-center transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45">
+                  <span className="absolute right-1 w-10 h-10 bg-background text-foreground rounded-full flex items-center justify-center transition-all duration-500 group-hover:right-[calc(100%-44px)] group-hover:rotate-45 group-hover:bg-emerald-950 group-hover:text-emerald-300">
                     <ArrowUpRight size={16} />
                   </span>
                 </Link>
                 <div className="flex items-center sm:gap-7 gap-3">
                   <ul className="avatar flex flex-row items-center" aria-label="What the contract guarantees">
-                    {[SealCheck, LockKey, FileText, Scales].map((Icon, index) => (
-                      <li key={index} className="-mr-2 z-1">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-background bg-secondary text-foreground">
-                          <Icon size={18} weight="duotone" />
-                        </span>
+                    {[
+                      { src: "/chip-vault.svg", alt: "Funds held with no key that opens them" },
+                      { src: "/chip-docs.svg", alt: "Documents examined against the stated terms" },
+                      { src: "/chip-scales.svg", alt: "The examination, done without a bank" },
+                      { src: "/chip-seal.svg", alt: "The seal struck on an honoured presentation" },
+                    ].map((chip, index) => (
+                      <li key={index} className="-mr-3 z-1 transition-transform hover:-translate-y-0.5">
+                        <img
+                          src={chip.src}
+                          alt={chip.alt}
+                          width={44}
+                          height={44}
+                          className="h-11 w-11 rounded-full border-2 border-background"
+                        />
                       </li>
                     ))}
                   </ul>
                   <div className="gap-1 flex flex-col items-start">
-                    <p className="text-sm font-medium">No owner. No pause. No upgrade.</p>
+                    <p className="text-sm font-medium">Held by code, not by a bank.</p>
                     <p className="sm:text-sm text-xs font-normal text-muted-foreground">
-                      47 tests, all green — read the contract yourself
+                      No owner, no pause, no release button — read it yourself
                     </p>
                   </div>
                 </div>

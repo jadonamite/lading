@@ -171,7 +171,7 @@ export default function OpenCredit() {
           <Field label="Asset" hint={asset.note}>
             <Select value={assetAddr} onChange={(e) => setAssetAddr(e.target.value)}>
               {ASSETS.map((a) => (
-                <option key={a.address} value={a.address} className="bg-slate-900 text-slate-100">
+                <option key={a.address} value={a.address} className="bg-background text-foreground">
                   {a.symbol}
                 </option>
               ))}
@@ -194,9 +194,9 @@ export default function OpenCredit() {
           label="Required Document"
           hint="Hashed locally in your browser. The file content is never uploaded anywhere — only its SHA-256 hash is recorded on-chain."
         >
-          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950/60 p-6 text-center transition-colors hover:border-emerald-500/50">
+          <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-background/50 p-6 text-center transition-colors hover:border-emerald-500/50">
             <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
-            <p className="text-xs font-semibold text-slate-300">
+            <p className="text-xs font-semibold text-foreground/80">
               Select or drop required document to compute SHA-256
             </p>
             <input
@@ -212,27 +212,27 @@ export default function OpenCredit() {
             {docHash ? (
               <div className="mt-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-2 text-center w-full max-w-md">
                 <p className="text-xs font-medium text-emerald-400">{docName}</p>
-                <p className="mono text-[11px] text-slate-300 truncate">{docHash}</p>
+                <p className="mono text-[11px] text-foreground/80 truncate">{docHash}</p>
               </div>
             ) : null}
           </div>
         </Field>
 
         <div>
-          <span className="label text-slate-400 font-semibold">Bounding Conditions</span>
-          <p className="mb-3 mt-1 text-xs text-slate-400">
+          <span className="label text-muted-foreground font-semibold">Bounding Conditions</span>
+          <p className="mb-3 mt-1 text-xs text-muted-foreground">
             Each condition is evaluated mechanically on chain, in order. A presentation must satisfy 100% of conditions.
           </p>
           <div className="space-y-3">
             {rows.map((r, i) => (
-              <div key={i} className="flex flex-wrap sm:flex-nowrap items-center gap-2 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
+              <div key={i} className="flex flex-wrap sm:flex-nowrap items-center gap-2 rounded-xl border border-white/[0.06] bg-background/50 p-3">
                 <Select
                   value={r.label}
                   onChange={(e) => setRows(edit(rows, i, { label: e.target.value }))}
                   className="flex-1 min-w-[140px]"
                 >
                   {KNOWN_FIELDS.map((f) => (
-                    <option key={f} value={f} className="bg-slate-900 text-slate-100">
+                    <option key={f} value={f} className="bg-background text-foreground">
                       {f}
                     </option>
                   ))}
@@ -243,7 +243,7 @@ export default function OpenCredit() {
                   className="w-24 shrink-0"
                 >
                   {[Op.EQ, Op.LTE, Op.GTE].map((o) => (
-                    <option key={o} value={o} className="bg-slate-900 text-slate-100">
+                    <option key={o} value={o} className="bg-background text-foreground">
                       {OP_SYMBOL[o]}
                     </option>
                   ))}
@@ -256,7 +256,7 @@ export default function OpenCredit() {
                 />
                 <button
                   onClick={() => setRows(rows.filter((_, j) => j !== i))}
-                  className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                  className="p-2 text-muted-foreground/70 hover:text-rose-400 transition-colors"
                   title="Remove condition"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -284,7 +284,7 @@ export default function OpenCredit() {
 
       <div className="flex flex-wrap items-center gap-4">
         {!isConnected ? (
-          <p className="text-sm text-slate-400">Connect wallet to open credit.</p>
+          <p className="text-sm text-muted-foreground">Connect wallet to open credit.</p>
         ) : !isNative && !approved ? (
           <Button
             size="lg"
@@ -312,15 +312,15 @@ export default function OpenCredit() {
           </Ext>
         ) : null}
         {hash && !mining && newId === undefined ? (
-          <button className="text-xs text-slate-400 underline hover:text-white" onClick={() => reset()}>
+          <button className="text-xs text-muted-foreground underline hover:text-emerald-300" onClick={() => reset()}>
             start over
           </button>
         ) : null}
       </div>
 
       {address ? (
-        <p className="text-xs text-slate-400">
-          Opening as <span className="mono text-slate-300">{address}</span> — you are designated as applicant, and post-expiry refund returns to this address.
+        <p className="text-xs text-muted-foreground">
+          Opening as <span className="mono text-foreground/80">{address}</span> — you are designated as applicant, and post-expiry refund returns to this address.
         </p>
       ) : null}
     </div>

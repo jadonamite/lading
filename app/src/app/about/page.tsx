@@ -14,7 +14,7 @@ export default function About() {
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-3"
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-400 transition-colors mb-3"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to explorer</span>
@@ -24,12 +24,12 @@ export default function About() {
             A 400-Year-Old Instrument, Minus the Bank
           </h1>
         </div>
-        <p className="mt-3 text-base text-slate-400 leading-relaxed max-w-2xl">
+        <p className="mt-3 text-base text-muted-foreground leading-relaxed max-w-2xl">
           Understanding Lading&apos;s mechanical UCP 600 implementation and non-custodial smart contract architecture.
         </p>
       </div>
 
-      <section className="space-y-4 text-sm text-slate-300 leading-relaxed rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
+      <section className="space-y-4 text-sm text-foreground/80 leading-relaxed rounded-2xl border border-white/[0.08] bg-muted/50 p-6 backdrop-blur-xl">
         <p>
           A seller in one country will not ship to a buyer in another they have never met, and the buyer will not pay upfront. The documentary credit resolved that standoff by introducing a trusted intermediary: the buyer&apos;s bank undertakes to pay the seller — not when the goods physically arrive, but when the <strong className="text-white">paperwork</strong> arrives matching the agreed terms.
         </p>
@@ -42,11 +42,11 @@ export default function About() {
       </section>
 
       <Card>
-        <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 mb-4 border-b border-white/[0.08] pb-3">
           <BookOpen className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">The Lifecycle of a Credit</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-foreground">The Lifecycle of a Credit</h2>
         </div>
-        <ol className="space-y-4 text-sm text-slate-300">
+        <ol className="space-y-4 text-sm text-foreground/80">
           <li className="flex items-start gap-3">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-medium text-emerald-400">1</span>
             <div>
@@ -81,14 +81,14 @@ export default function About() {
       </Card>
 
       <Card>
-        <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 mb-3 border-b border-white/[0.08] pb-3">
           <ShieldCheck className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">Zero Administrator Model</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-foreground">Zero Administrator Model</h2>
         </div>
-        <p className="text-sm text-slate-300 leading-relaxed">
+        <p className="text-sm text-foreground/80 leading-relaxed">
           No owner, no pause role, no upgrade proxy, no <span className="mono text-emerald-400">selfdestruct</span>, and no fallback deposit traps. Escrow funds leave through exactly two functions: an honoured presentation or a post-expiry refund. Neither function consults administrator discretion.
         </p>
-        <p className="mt-3 text-sm text-slate-400">
+        <p className="mt-3 text-sm text-muted-foreground">
           Source code is 100% open and verified on-chain:{" "}
           {deployed ? (
             <Ext href={addrUrl(LADING_ADDRESS)}>
@@ -101,12 +101,12 @@ export default function About() {
       </Card>
 
       <Card>
-        <div className="flex items-center gap-2 mb-3 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 mb-3 border-b border-white/[0.08] pb-3">
           <Scale className="h-5 w-5 text-emerald-400" />
-          <h2 className="text-base font-medium uppercase tracking-wider text-slate-200">What This Does Not Claim</h2>
+          <h2 className="text-base font-medium uppercase tracking-wider text-foreground">What This Does Not Claim</h2>
         </div>
 
-        <p className="text-sm text-slate-300 leading-relaxed">
+        <p className="text-sm text-foreground/80 leading-relaxed">
           The smart contract proves that presented file bytes match the agreed SHA-256 hash, and that presented numerical values satisfy defined bounds. It does not inspect physical goods or guarantee document truthfulness. That gap is identical to traditional bank documentary credits under UCP 600, which is why nominated third-party inspectors exist when physical verification matters.
         </p>
       </Card>

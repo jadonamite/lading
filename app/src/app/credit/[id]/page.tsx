@@ -58,7 +58,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition-colors mb-3"
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-400 transition-colors mb-3"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to explorer</span>
@@ -92,7 +92,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
             <p className="text-xl font-medium uppercase tracking-tight text-emerald-400">
               Honoured — Funds Transferred
             </p>
-            <p className="mt-1 text-sm text-slate-300 leading-relaxed">
+            <p className="mt-1 text-sm text-foreground/80 leading-relaxed">
               The documents presented conformed to 100% of defined conditions. <strong className="text-white">{amount}</strong> was automatically dispatched to the beneficiary in that single atomic transaction. Zero administrator intervention occurred.
             </p>
           </div>
@@ -100,12 +100,12 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       ) : null}
 
       {state === State.Refunded ? (
-        <div className="flex items-start gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl">
-          <RotateCcw className="h-8 w-8 text-slate-400 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-muted/50 p-6 backdrop-blur-xl">
+          <RotateCcw className="h-8 w-8 text-muted-foreground shrink-0 mt-0.5" />
           <div>
-            <p className="text-xl font-medium tracking-tight text-slate-200">Refunded to Applicant</p>
-            <p className="mt-1 text-sm text-slate-400 leading-relaxed">
-              The credit lapsed past its expiry timestamp without receiving a conforming presentation. Escrow funds of <strong className="text-slate-200">{amount}</strong> were automatically returned to applicant <span className="mono text-slate-300">{shortAddr(credit.applicant)}</span>.
+            <p className="text-xl font-medium tracking-tight text-foreground">Refunded to Applicant</p>
+            <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+              The credit lapsed past its expiry timestamp without receiving a conforming presentation. Escrow funds of <strong className="text-foreground">{amount}</strong> were automatically returned to applicant <span className="mono text-foreground/80">{shortAddr(credit.applicant)}</span>.
             </p>
           </div>
         </div>
@@ -113,9 +113,9 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2 mb-4 border-b border-white/[0.08] pb-3">
             <Sparkles className="h-4 w-4 text-emerald-400" />
-            <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Escrow Terms</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-foreground">Escrow Terms</h2>
           </div>
           <Row k="state">{STATE_LABEL[state]}</Row>
           <Row k="applicant">
@@ -126,7 +126,7 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
           </Row>
           <Row k="asset">
             {credit.asset === NATIVE ? (
-              <span className="mono text-slate-300">{symbol} (native)</span>
+              <span className="mono text-foreground/80">{symbol} (native)</span>
             ) : (
               <Ext href={addrUrl(credit.asset)}>
                 {symbol} · {assetOf(credit.asset).decimals} dp
@@ -137,35 +137,35 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
             <span className="mono font-semibold text-emerald-400">{amount}</span>
           </Row>
           <Row k="expiry">
-            <span className="mono text-slate-300">{asDate(credit.expiry)}</span>
+            <span className="mono text-foreground/80">{asDate(credit.expiry)}</span>
           </Row>
           <Row k="doc hash">
-            <span className="mono text-xs text-slate-400" title={credit.docHash}>
+            <span className="mono text-xs text-muted-foreground" title={credit.docHash}>
               {credit.docHash.slice(0, 18)}…
             </span>
           </Row>
           {credit.amendmentSeq > 0 ? (
             <Row k="amendments">
-              <span className="mono text-slate-300">{credit.amendmentSeq} applied</span>
+              <span className="mono text-foreground/80">{credit.amendmentSeq} applied</span>
             </Row>
           ) : null}
         </Card>
 
         <Card>
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+          <div className="flex items-center gap-2 mb-4 border-b border-white/[0.08] pb-3">
             <FileCheck className="h-4 w-4 text-emerald-400" />
-            <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Mechanical Conditions</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-foreground">Mechanical Conditions</h2>
           </div>
           {!spec || spec.length === 0 ? (
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Pure documentary credit — zero custom conditions. Presenting the exact required document hash will immediately release funds.
             </p>
           ) : (
             <ul className="space-y-2.5">
               {spec.map((f, i) => (
-                <li key={i} className="flex items-baseline justify-between gap-3 border-b border-slate-800/80 pb-2.5 last:border-0">
-                  <span className="mono text-xs font-semibold text-slate-300">{labelOf(f.key)}</span>
-                  <span className="text-xs text-slate-400">
+                <li key={i} className="flex items-baseline justify-between gap-3 border-b border-white/[0.06] pb-2.5 last:border-0">
+                  <span className="mono text-xs font-semibold text-foreground/80">{labelOf(f.key)}</span>
+                  <span className="text-xs text-muted-foreground">
                     {OP_LABEL[Number(f.op) as Op]}{" "}
                     <span className="mono font-medium text-emerald-400">{f.value.toString()}</span>
                   </span>
@@ -177,8 +177,8 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       </div>
 
       {state === State.Open ? (
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl space-y-4">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Available Actions</h2>
+        <div className="rounded-2xl border border-white/[0.08] bg-muted/50 p-6 backdrop-blur-xl space-y-4">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-foreground">Available Actions</h2>
 
           <div className="flex flex-wrap items-center gap-3">
             {!expired ? (
@@ -216,14 +216,14 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
             </div>
           </div>
 
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-muted-foreground">
             {!expired ? (
               <span>
                 Refund unlocks in <strong className="text-amber-400">{countdown(credit.expiry)}</strong>. The irrevocable undertaking stands until expiry.
               </span>
             ) : (
               <span>
-                Credit expired. Anyone may trigger refund; funds can strictly return to applicant <span className="mono text-slate-300">{shortAddr(credit.applicant)}</span>.
+                Credit expired. Anyone may trigger refund; funds can strictly return to applicant <span className="mono text-foreground/80">{shortAddr(credit.applicant)}</span>.
               </span>
             )}
           </div>
@@ -236,9 +236,9 @@ export default function CreditPage({ params }: { params: Promise<{ id: string }>
       <Card>
         <div className="flex items-center gap-2 mb-2">
           <ShieldAlert className="h-4 w-4 text-rose-400" />
-          <h2 className="text-sm font-medium uppercase tracking-wider text-slate-200">Notices of Refusal (UCP 600 Art. 16)</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wider text-foreground">Notices of Refusal (UCP 600 Art. 16)</h2>
         </div>
-        <p className="mb-4 text-xs text-slate-400">
+        <p className="mb-4 text-xs text-muted-foreground">
           Every presentation attempt is recorded on-chain with exact discrepancy reasons. Under UCP 600, bank refusals must state every failed condition.
         </p>
         {!notices || notices.length === 0 ? (

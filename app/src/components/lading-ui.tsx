@@ -14,7 +14,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-slate-800/80 bg-slate-900/80 p-6 shadow-xl backdrop-blur-xl transition-all duration-300 hover:border-slate-700/80",
+        "rounded-2xl border border-white/[0.06] bg-muted/60 p-6 backdrop-blur-xl transition-colors duration-300 hover:border-emerald-500/25",
         className
       )}
     >
@@ -34,9 +34,9 @@ export function Field({
 }) {
   return (
     <label className="block space-y-1.5">
-      <span className="label text-slate-400 font-semibold tracking-wider">{label}</span>
+      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
       <div>{children}</div>
-      {hint ? <p className="text-xs text-slate-400 leading-relaxed">{hint}</p> : null}
+      {hint ? <p className="text-xs leading-relaxed text-muted-foreground">{hint}</p> : null}
     </label>
   );
 }
@@ -46,7 +46,7 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
     <input
       {...props}
       className={cn(
-        "w-full rounded-xl border border-slate-800 bg-slate-950/80 px-4 py-2.5 text-sm mono text-slate-100 placeholder-slate-500",
+        "w-full rounded-xl border border-white/[0.08] bg-background/60 px-4 py-2.5 text-sm mono text-foreground placeholder:text-muted-foreground/60",
         "outline-none transition-all duration-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20",
         props.className
       )}
@@ -59,7 +59,7 @@ export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
     <select
       {...props}
       className={cn(
-        "w-full rounded-xl border border-slate-800 bg-slate-950/80 px-4 py-2.5 text-sm text-slate-100",
+        "w-full rounded-xl border border-white/[0.08] bg-background/60 px-4 py-2.5 text-sm text-foreground",
         "outline-none transition-all duration-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20",
         props.className
       )}
@@ -77,20 +77,20 @@ export function Button({
   size?: "sm" | "md" | "lg";
 }) {
   const sizeClasses = {
-    sm: "px-3 py-1.5 text-xs font-medium rounded-lg",
-    md: "px-5 py-2.5 text-sm font-semibold rounded-xl",
-    lg: "px-6 py-3 text-base font-semibold rounded-xl",
+    sm: "px-4 py-1.5 text-xs font-medium rounded-full",
+    md: "px-5 py-2.5 text-sm font-medium rounded-full",
+    lg: "px-6 py-3 text-base font-medium rounded-full",
   };
 
   const variantClasses = {
     primary:
-      "bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 active:scale-[0.98]",
+      "bg-primary text-primary-foreground hover:bg-emerald-400 hover:text-emerald-950 hover:shadow-[0_0_30px_-6px_rgba(16,185,129,0.7)] active:scale-[0.98]",
     secondary:
-      "bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700/80 shadow-md active:scale-[0.98]",
+      "bg-secondary text-secondary-foreground border border-white/[0.08] hover:border-emerald-500/40 hover:text-emerald-300 active:scale-[0.98]",
     ghost:
-      "border border-slate-800 bg-slate-900/50 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700 active:scale-[0.98]",
+      "border border-white/[0.08] bg-muted/40 text-foreground/80 hover:border-emerald-500/40 hover:bg-muted hover:text-emerald-300 active:scale-[0.98]",
     danger:
-      "bg-rose-500/20 border border-rose-500/40 text-rose-400 hover:bg-rose-500/30 shadow-lg shadow-rose-500/10 active:scale-[0.98]",
+      "bg-destructive/15 border border-destructive/40 text-destructive hover:bg-destructive/25 active:scale-[0.98]",
   };
 
   return (
@@ -110,9 +110,9 @@ export function Button({
 
 export function Row({ k, children }: { k: string; children: ReactNode }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-slate-800/80 py-2.5 last:border-0">
-      <span className="label text-slate-400 shrink-0">{k}</span>
-      <span className="min-w-0 truncate text-right text-sm text-slate-200">{children}</span>
+    <div className="flex items-baseline justify-between gap-4 border-b border-white/[0.06] py-2.5 last:border-0">
+      <span className="label text-muted-foreground shrink-0">{k}</span>
+      <span className="min-w-0 truncate text-right text-sm text-foreground">{children}</span>
     </div>
   );
 }
@@ -141,7 +141,7 @@ export function Badge({
   const tones = {
     open: "bg-amber-500/10 text-amber-400 border-amber-500/30 shadow-amber-500/10",
     honoured: "bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-emerald-500/10",
-    refunded: "bg-slate-800/80 text-slate-300 border-slate-700/80",
+    refunded: "bg-secondary/80 text-foreground/80 border-white/[0.10]",
     warn: "bg-rose-500/15 text-rose-400 border-rose-500/30 shadow-rose-500/10",
   } as const;
   return (
@@ -156,7 +156,7 @@ export function Badge({
           "h-1.5 w-1.5 rounded-full",
           tone === "open" && "bg-amber-400 animate-pulse",
           tone === "honoured" && "bg-emerald-400",
-          tone === "refunded" && "bg-slate-400",
+          tone === "refunded" && "bg-muted-foreground",
           tone === "warn" && "bg-rose-400"
         )}
       />
@@ -166,6 +166,6 @@ export function Badge({
 }
 
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="py-10 text-center text-sm text-slate-400 font-medium">{children}</p>;
+  return <p className="py-10 text-center text-sm text-muted-foreground font-medium">{children}</p>;
 }
 

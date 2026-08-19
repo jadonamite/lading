@@ -177,7 +177,7 @@ const Header = ({ navigationData, className }: HeaderProps) => {
                     <div className="flex gap-3">
                       {[
                         { icon: "lucide:github", label: "GitHub", href: "https://github.com/jadonamite/lading" },
-                        { icon: "lucide:file-search", label: "Contract on BOT Chain", href: "https://scan.botchain.ai" },
+                        { icon: "lucide:twitter", label: "X", href: "https://x.com/jadonamite" },
                       ].map(({ icon, label, href }) => (
                         <a
                           key={icon}

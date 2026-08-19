@@ -44,16 +44,16 @@ export function Discrepancy({
           <AlertTriangle className="h-4 w-4 text-rose-400" />
           <p className="label !text-rose-400">Discrepancy · Required Document Hash</p>
         </div>
-        <p className="text-sm text-slate-200">
+        <p className="text-sm text-foreground">
           The document presented does not match the SHA-256 hash specified for this credit.
         </p>
-        <dl className="mono space-y-1.5 rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs">
+        <dl className="mono space-y-1.5 rounded-xl border border-white/[0.08] bg-background p-3 text-xs">
           <div className="flex gap-3">
-            <dt className="w-24 shrink-0 text-slate-400">required</dt>
-            <dd className="truncate text-slate-200">{toHash(finding.expected)}</dd>
+            <dt className="w-24 shrink-0 text-muted-foreground">required</dt>
+            <dd className="truncate text-foreground">{toHash(finding.expected)}</dd>
           </div>
           <div className="flex gap-3">
-            <dt className="w-24 shrink-0 text-slate-400">presented</dt>
+            <dt className="w-24 shrink-0 text-muted-foreground">presented</dt>
             <dd className="truncate text-rose-400 font-semibold">{toHash(finding.presented)}</dd>
           </div>
         </dl>
@@ -68,10 +68,10 @@ export function Discrepancy({
           <AlertTriangle className="h-4 w-4 text-rose-400" />
           <p className="label !text-rose-400">Discrepancy · Missing Bounding Field</p>
         </div>
-        <p className="text-sm text-slate-200">
+        <p className="text-sm text-foreground">
           The credit requires condition field <strong className="mono text-white">{labelOf(finding.field)}</strong>, but the presentation omitted it.
         </p>
-        <p className="mono text-xs text-slate-400 rounded-xl border border-slate-800 bg-slate-950 p-3">
+        <p className="mono text-xs text-muted-foreground rounded-xl border border-white/[0.08] bg-background p-3">
           required: {labelOf(finding.field)} {OP_LABEL[Number(finding.op) as Op]}{" "}
           {finding.expected.toString()}
         </p>
@@ -86,7 +86,7 @@ export function Discrepancy({
           <AlertTriangle className="h-4 w-4 text-rose-400" />
           <p className="label !text-rose-400">Discrepancy · Field Out of Bounds</p>
         </div>
-        <p className="text-sm text-slate-200">
+        <p className="text-sm text-foreground">
           Condition field <strong className="mono text-white">{labelOf(finding.field)}</strong> must be{" "}
           <span className="mono font-semibold text-emerald-400">
             {OP_LABEL[Number(finding.op) as Op]} {finding.expected.toString()}
@@ -107,10 +107,10 @@ export function Discrepancy({
 
 export function NoticeRow({ notice }: { notice: Notice }) {
   return (
-    <li className="border-b border-slate-800/80 py-4 last:border-0">
+    <li className="border-b border-white/[0.06] py-4 last:border-0">
       <div className="flex items-center justify-between gap-3 text-xs mb-2">
-        <span className="mono text-slate-400">Presenter: {shortAddr(notice.presenter)}</span>
-        <span className="mono text-slate-400">{asDate(notice.at)}</span>
+        <span className="mono text-muted-foreground">Presenter: {shortAddr(notice.presenter)}</span>
+        <span className="mono text-muted-foreground">{asDate(notice.at)}</span>
       </div>
       <div className="mt-1">
         <Discrepancy finding={notice} />

@@ -8,7 +8,7 @@ import { ShieldCheck, ExternalLink, ArrowUpRight, Lock, CheckCircle2 } from "luc
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-800/80 bg-slate-950/90 text-slate-400">
+    <footer className="mt-20 border-t border-white/[0.06] bg-background/90 text-muted-foreground">
       <div className="mx-auto max-w-6xl px-5 py-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Brand Col */}
@@ -22,11 +22,11 @@ export function Footer() {
                 className="h-8 w-auto object-contain"
               />
             </Link>
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+            <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
               A four-hundred-year-old trade finance instrument, settled mechanically on BOT Chain by smart contract.
               Zero administrator, zero discretion, zero delay.
             </p>
-            <div className="flex items-center gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0" />
               <span>Compliant with UCP 600 trade principles</span>
             </div>
@@ -35,7 +35,7 @@ export function Footer() {
           {/* Links Grid */}
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
             <div className="space-y-3">
-              <h4 className="label text-slate-400 font-medium">Product</h4>
+              <h4 className="label text-muted-foreground font-medium">Product</h4>
               <ul className="space-y-2">
                 <li>
                   <Link href="/open" className="hover:text-emerald-400 transition-colors">
@@ -56,7 +56,7 @@ export function Footer() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="label text-slate-400 font-medium">Protocol</h4>
+              <h4 className="label text-muted-foreground font-medium">Protocol</h4>
               <ul className="space-y-2">
                 <li>
                   <a href="/#specs" className="hover:text-emerald-400 transition-colors">
@@ -83,10 +83,10 @@ export function Footer() {
             </div>
 
             <div className="col-span-2 sm:col-span-1 space-y-3">
-              <h4 className="label text-slate-400 font-medium">Verification</h4>
+              <h4 className="label text-muted-foreground font-medium">Verification</h4>
               <div className="space-y-2.5 text-xs">
-                <div className="p-3 rounded-xl border border-slate-800 bg-slate-900/60">
-                  <div className="text-slate-400 mb-1">Contract Address</div>
+                <div className="p-3 rounded-xl border border-white/[0.08] bg-muted/50">
+                  <div className="text-muted-foreground mb-1">Contract Address</div>
                   <a
                     href={addrUrl(LADING_ADDRESS)}
                     target="_blank"
@@ -97,7 +97,7 @@ export function Footer() {
                     <ExternalLink className="h-3 w-3 shrink-0" />
                   </a>
                 </div>
-                <div className="flex items-center gap-1.5 text-slate-400">
+                <div className="flex items-center gap-1.5 text-muted-foreground">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                   <span>BOT Chain ID {botChain.id}</span>
                 </div>
@@ -107,11 +107,11 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="mt-12 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} Lading Protocol. Non-custodial documentary credit settlement.</p>
           <div className="flex items-center gap-4">
-            <span className="mono text-slate-400">47/47 Verification Tests Green</span>
-            <span className="h-1 w-1 rounded-full bg-slate-700" />
+            <span className="mono text-muted-foreground">47/47 Verification Tests Green</span>
+            <span className="h-1 w-1 rounded-full bg-white/15" />
             <span className="text-emerald-400">Zero Admin Custody</span>
           </div>
         </div>
