@@ -6,8 +6,12 @@ export const botChain = defineChain({
   name: "BOT Chain",
   nativeCurrency: { name: "BOT", symbol: "BOT", decimals: 18 },
   rpcUrls: {
-    // The trailing slash is required — the bare host returns nothing.
-    default: { http: ["https://rpc.botchain.ai/"] },
+    // The trailing slash is required — the bare host returns nothing. The override exists
+    // so the same build can be pointed at a local chain for rehearsal; it is unset in
+    // production, where the public endpoint is the only one published.
+    default: {
+      http: [process.env.NEXT_PUBLIC_RPC_URL || "https://rpc.botchain.ai/"],
+    },
   },
   blockExplorers: {
     default: { name: "BOT Scan", url: "https://scan.botchain.ai" },
