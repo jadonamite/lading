@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* A documentary credit is a legal instrument, and the interface is a form. The palette is
+   paper and ink with one alarm colour, because the loudest thing this product ever says is
+   REFUSED — FUNDS UNMOVED, and nothing else on screen is allowed to compete with it. */
+@theme {
+  --color-paper: #f7f5f0;
+  --color-paper-2: #efece4;
+  --color-ink: #16150f;
+  --color-ink-2: #4a4740;
+  --color-ink-3: #7d786d;
+  --color-rule: #d9d4c7;
+  --color-seal: #1c4a3f;
+  --color-seal-2: #2a6b5a;
+  --color-refuse: #9e2a1e;
+  --color-refuse-2: #fdeceA;
+  --color-pending: #8a6a12;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+.rule {
+  border-color: var(--color-rule);
+}
+
+/* Hashes, addresses and amounts are evidence. They get a machine face and they never wrap
+   into ambiguity. */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  font-weight: 600;
+}
+
+input,
+select {
+  font-family: inherit;
+}
+
+input::placeholder {
+  color: var(--color-ink-3);
+  opacity: 0.7;
+}
