@@ -118,7 +118,10 @@ export default function OpenCredit() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="hero-bloom relative mx-auto max-w-3xl space-y-8">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-24 -z-10 h-96 overflow-hidden">
+        <div className="absolute left-1/2 h-[26rem] w-[46rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(16,185,129,0.16),transparent)] blur-3xl" />
+      </div>
       <div>
         <Link
           href="/"
@@ -192,12 +195,12 @@ export default function OpenCredit() {
 
         <Field
           label="Required Document"
-          hint="Hashed locally in your browser. The file content is never uploaded anywhere — only its SHA-256 hash is recorded on-chain."
+          hint="Hashed locally in your browser. The file content is never uploaded anywhere — only its keccak-256 hash is recorded on chain."
         >
           <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-background/50 p-6 text-center transition-colors hover:border-emerald-500/50">
             <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
             <p className="text-xs font-semibold text-foreground/80">
-              Select or drop required document to compute SHA-256
+              Select or drop required document to compute its keccak-256 hash
             </p>
             <input
               type="file"

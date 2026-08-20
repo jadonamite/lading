@@ -16,11 +16,11 @@ export function Card({
   return (
     <ShadCard
       className={cn(
-        "border-white/[0.06] bg-muted/50 transition-colors duration-300 hover:border-emerald-500/25",
+        "border-0 bg-muted ring-0 rounded-2xl transition-colors duration-300",
         className,
       )}
     >
-      <CardContent className="p-6">{children}</CardContent>
+      <CardContent className="px-6 py-8 sm:px-8">{children}</CardContent>
     </ShadCard>
   );
 }

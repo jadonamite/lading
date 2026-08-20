@@ -45,7 +45,7 @@ export function Discrepancy({
           <p className="label !text-rose-400">Discrepancy · Required Document Hash</p>
         </div>
         <p className="text-sm text-foreground">
-          The document presented does not match the SHA-256 hash specified for this credit.
+          The document presented does not match the keccak-256 hash this credit calls for.
         </p>
         <dl className="mono space-y-1.5 rounded-xl border border-white/[0.08] bg-background p-3 text-xs">
           <div className="flex gap-3">

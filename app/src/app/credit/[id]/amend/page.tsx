@@ -87,7 +87,7 @@ export default function AmendPage({ params }: { params: Promise<{ id: string }> 
           <div className="relative flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-background/50 p-6 text-center transition-colors hover:border-emerald-500/50">
             <FileUp className="h-8 w-8 text-emerald-400 mb-2" />
             <p className="text-xs font-semibold text-foreground/80">
-              Select new document to compute SHA-256
+              Select new document to compute its keccak-256 hash
             </p>
             <input
               type="file"

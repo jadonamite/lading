@@ -107,7 +107,7 @@ export default function About() {
         </div>
 
         <p className="text-sm text-foreground/80 leading-relaxed">
-          The smart contract proves that presented file bytes match the agreed SHA-256 hash, and that presented numerical values satisfy defined bounds. It does not inspect physical goods or guarantee document truthfulness. That gap is identical to traditional bank documentary credits under UCP 600, which is why nominated third-party inspectors exist when physical verification matters.
+          The smart contract proves that presented file bytes match the agreed keccak-256 hash, and that presented numerical values satisfy defined bounds. It does not inspect physical goods or guarantee document truthfulness. That gap is identical to traditional bank documentary credits under UCP 600, which is why nominated third-party inspectors exist when physical verification matters.
         </p>
       </Card>
 
