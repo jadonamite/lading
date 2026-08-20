@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
-import { botChain, LADING_ADDRESS, addrUrl } from "@/lib/chain";
+import { activeChain, LADING_ADDRESS, addrUrl } from "@/lib/chain";
 import { shortAddr } from "@/lib/lading";
 import { Button } from "./lading-ui";
 import { Wallet, Copy, Check, ExternalLink, ShieldCheck, Menu, X } from "lucide-react";
@@ -19,7 +19,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const injected = connectors[0];
-  const wrongChain = isConnected && chainId !== botChain.id;
+  const wrongChain = isConnected && chainId !== activeChain.id;
 
   const handleCopyContract = () => {
     if (LADING_ADDRESS) {
@@ -79,7 +79,7 @@ export function Header() {
           ) : null}
 
           {wrongChain ? (
-            <Button variant="danger" size="sm" onClick={() => switchChain({ chainId: botChain.id })}>
+            <Button variant="danger" size="sm" onClick={() => switchChain({ chainId: activeChain.id })}>
               Switch to BOT Chain
             </Button>
           ) : isConnected ? (

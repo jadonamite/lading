@@ -15,9 +15,16 @@ import {Lading} from "../src/Lading.sol";
 ///           --verifier-url https://scan.botchain.ai/api --private-key $DEPLOYER_KEY
 contract Deploy is Script {
     uint256 internal constant BOT_CHAIN = 677;
+    uint256 internal constant BOT_TESTNET = 968;
 
     function run() external returns (Lading lading) {
-        require(block.chainid == BOT_CHAIN, "Deploy: wrong chain, expected BOT Chain 677");
+        // 677 is mainnet, 968 the Bohr testnet. Anything else is a misconfigured
+        // RPC, and the guard exists because a mainnet requirement plus a single
+        // endpoint is exactly how a submission ends up verified on the wrong chain.
+        require(
+            block.chainid == BOT_CHAIN || block.chainid == BOT_TESTNET,
+            "Deploy: wrong chain, expected 677 or 968"
+        );
 
         vm.startBroadcast();
         lading = new Lading();

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LADING_ADDRESS, addrUrl, botChain } from "@/lib/chain";
+import { LADING_ADDRESS, addrUrl, activeChain } from "@/lib/chain";
 import { shortAddr } from "@/lib/lading";
 import { ShieldCheck, ExternalLink, ArrowUpRight, Lock, CheckCircle2 } from "lucide-react";
 
@@ -99,7 +99,7 @@ export function Footer() {
                 </div>
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                  <span>BOT Chain ID {botChain.id}</span>
+                  <span>{activeChain.name} · {activeChain.id}</span>
                 </div>
               </div>
             </div>

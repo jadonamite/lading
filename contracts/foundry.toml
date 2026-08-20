@@ -16,6 +16,8 @@ runs = 1024
 
 [rpc_endpoints]
 botchain = "https://rpc.botchain.ai/"
+bohr = "https://rpc.bohr.life/"
 
 [etherscan]
 botchain = { key = "blockscout", chain = 677, url = "https://scan.botchain.ai/api" }
+bohr = { key = "blockscout", chain = 968, url = "https://scan.bohr.life/api" }
