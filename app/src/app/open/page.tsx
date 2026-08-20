@@ -136,7 +136,7 @@ export default function OpenCredit() {
             Issue an irrevocable credit
           </span>
         </div>
-        <h1 className="mt-4 text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl">
+        <h1 className="mt-4 text-3xl font-medium leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl">
           State the terms once.{" "}
           <span className="font-serif italic tracking-tight text-emerald-300">
             Then nobody can move them.
@@ -148,6 +148,13 @@ export default function OpenCredit() {
           and <strong className="text-foreground">by you</strong> until expiry.
           That is the undertaking, and there is no button anywhere that undoes it.
         </p>
+      </div>
+
+      <div className="flex items-center gap-3 pt-2">
+        <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+          01 — The parties
+        </span>
+        <span className="h-px flex-1 bg-white/[0.06]" />
       </div>
 
       <Card className="space-y-6">
@@ -169,6 +176,13 @@ export default function OpenCredit() {
             onChange={(e) => setPresenters(e.target.value)}
           />
         </Field>
+
+        <div className="flex items-center gap-3 pt-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+            02 — The money
+          </span>
+          <span className="h-px flex-1 bg-white/[0.06]" />
+        </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Asset" hint={asset.note}>
@@ -192,6 +206,13 @@ export default function OpenCredit() {
         >
           <Input type="datetime-local" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
         </Field>
+
+        <div className="flex items-center gap-3 pt-2">
+          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+            03 — The documents
+          </span>
+          <span className="h-px flex-1 bg-white/[0.06]" />
+        </div>
 
         <Field
           label="Required Document"
@@ -222,17 +243,23 @@ export default function OpenCredit() {
         </Field>
 
         <div>
+          <div className="mb-4 flex items-center gap-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-emerald-400">
+              04 — The conditions
+            </span>
+            <span className="h-px flex-1 bg-white/[0.06]" />
+          </div>
           <span className="label text-muted-foreground font-semibold">Bounding Conditions</span>
           <p className="mb-3 mt-1 text-xs text-muted-foreground">
             Each condition is evaluated mechanically on chain, in order. A presentation must satisfy 100% of conditions.
           </p>
           <div className="space-y-3">
             {rows.map((r, i) => (
-              <div key={i} className="flex flex-wrap sm:flex-nowrap items-center gap-2 rounded-xl border border-white/[0.06] bg-background/50 p-3">
+              <div key={i} className="flex flex-wrap items-center gap-2 rounded-xl border border-white/[0.06] bg-background/50 p-3 sm:flex-nowrap">
                 <Select
                   value={r.label}
                   onChange={(e) => setRows(edit(rows, i, { label: e.target.value }))}
-                  className="flex-1 min-w-[140px]"
+                  className="min-w-0 flex-1 basis-full sm:basis-auto"
                 >
                   {KNOWN_FIELDS.map((f) => (
                     <option key={f} value={f} className="bg-background text-foreground">
@@ -243,7 +270,7 @@ export default function OpenCredit() {
                 <Select
                   value={r.op}
                   onChange={(e) => setRows(edit(rows, i, { op: Number(e.target.value) as Op }))}
-                  className="w-24 shrink-0"
+                  className="w-20 shrink-0"
                 >
                   {[Op.EQ, Op.LTE, Op.GTE].map((o) => (
                     <option key={o} value={o} className="bg-background text-foreground">
@@ -255,7 +282,7 @@ export default function OpenCredit() {
                   placeholder="e.g. 500"
                   value={r.value}
                   onChange={(e) => setRows(edit(rows, i, { value: e.target.value }))}
-                  className="w-36 shrink-0"
+                  className="min-w-0 flex-1 sm:w-36 sm:flex-none"
                 />
                 <button
                   onClick={() => setRows(rows.filter((_, j) => j !== i))}

@@ -111,13 +111,13 @@ function Counter({ value }: { value: string }) {
 
 function GridCell({ cell }: { cell: Cell }) {
   if (cell.empty) {
-    return <div className="border-r border-b border-white/[0.06] min-h-[9rem]" />;
+    return <div className="border-r border-b border-white/[0.06] min-h-[8rem] sm:min-h-[9rem]" />;
   }
 
   return (
     <div
       className={cn(
-        "relative border-r border-b border-white/[0.06] min-h-[9rem] p-5 sm:p-6 flex flex-col justify-between",
+        "relative border-r border-b border-white/[0.06] min-h-[8rem] p-4 sm:min-h-[9rem] sm:p-6 flex flex-col justify-between",
         cell.hatched &&
           "bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.03)_0px,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_7px)]",
         cell.featured && "z-10",
@@ -136,7 +136,7 @@ function GridCell({ cell }: { cell: Cell }) {
         </span>
         <p
           className={cn(
-            "mt-3 whitespace-pre-line text-lg leading-tight tracking-tight sm:text-xl",
+            "mt-2.5 whitespace-pre-line text-base leading-tight tracking-tight sm:mt-3 sm:text-xl",
             cell.featured ? "text-white" : "text-foreground/85",
           )}
         >
@@ -147,7 +147,7 @@ function GridCell({ cell }: { cell: Cell }) {
       <div className="relative mt-6">
         <span
           className={cn(
-            "block text-4xl font-medium tabular-nums sm:text-5xl",
+            "block text-3xl font-medium tabular-nums sm:text-5xl",
             cell.featured ? "text-emerald-400" : "text-muted-foreground/45",
           )}
         >

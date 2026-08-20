@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { activeChain, addrUrl, LADING_ADDRESS } from "@/lib/chain";
 
 const TwitterIcon = () => (
   <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,9 +108,26 @@ const Footer = () => {
                   </li>
                   <li>
                     <p className="text-base font-normal text-muted-foreground">
-                      Built on BOT Chain
+                      {activeChain.name} · chain {activeChain.id}
                     </p>
                   </li>
+                  {LADING_ADDRESS !== "0x0000000000000000000000000000000000000000" ? (
+                    <li>
+                      {/* The whole claim is that you do not have to take our word
+                          for it, so the contract is one click from every page. */}
+                      <a
+                        href={addrUrl(LADING_ADDRESS)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-sm text-muted-foreground underline decoration-white/15 underline-offset-4 hover:text-emerald-300 hover:decoration-emerald-400/50"
+                      >
+                        {LADING_ADDRESS.slice(0, 10)}…{LADING_ADDRESS.slice(-8)}
+                      </a>
+                      <p className="mt-1 text-xs text-muted-foreground/70">
+                        verified contract — read it
+                      </p>
+                    </li>
+                  ) : null}
                 </ul>
               </div>
             </div>

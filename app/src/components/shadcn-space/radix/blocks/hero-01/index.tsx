@@ -15,6 +15,10 @@ export default function AgencyHeroSection() {
     { title: "Home", href: "/#hero", isActive: true },
     { title: "How it works", href: "/#how-it-works" },
     { title: "The instrument", href: "/#performance" },
+  { title: "Credits", href: "/#credits" },
+  { title: "About", href: "/about" },
+    { title: "Credits", href: "/#credits" },
+    { title: "About", href: "/about" },
     { title: "FAQ", href: "/#faq" },
   ];
 

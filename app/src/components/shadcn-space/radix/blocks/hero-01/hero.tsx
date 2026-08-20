@@ -30,10 +30,10 @@ function HeroSection({ avatarList }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 32 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, ease: "easeInOut" }}
-                  className="lg:text-8xl md:text-7xl text-5xl font-medium tracking-tight leading-14 md:leading-20 lg:leading-24"
+                  className="text-[2.5rem] leading-[1.08] sm:text-5xl sm:leading-14 md:text-7xl md:leading-20 lg:text-8xl lg:leading-24 font-medium tracking-tight"
                 >
                   Ship before you&apos;re paid.{" "}
-                  <span className="font-serif italic tracking-tight text-emerald-300"><br/>
+                  <span className="font-serif italic tracking-tight text-emerald-300"><br className="hidden sm:inline" />
                     Get paid anyway.
                   </span>
                 </motion.h1>
