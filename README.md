@@ -6,8 +6,8 @@ refunded in full if they never are.
 
 Built for the BOT Chain Builder Challenge #2 — RWA track.
 
-- **Live product:** _(pending deploy)_
-- **Contract on BOT Chain mainnet:** _(pending deploy)_
+- **Live product:** [lading.namite.xyz](https://lading.namite.xyz)
+- **Contract on BOT Chain mainnet:** [`0x21FB87b9...3703E`](https://scan.botchain.ai/address/0x21fb87b92b125ffd27b3d3319072350cd8b3703e) — verified
 - **Chain:** BOT Chain, id 677 · [scan.botchain.ai](https://scan.botchain.ai)
 
 ---
